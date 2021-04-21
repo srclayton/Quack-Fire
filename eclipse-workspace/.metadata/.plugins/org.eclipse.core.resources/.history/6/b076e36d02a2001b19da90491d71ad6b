@@ -1,0 +1,23 @@
+package player;
+
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
+public class Player {
+	private int x, y; //coordenadas 
+	private int dx, dy; //coordenada
+	private Image img;
+	private int altura, largura;
+
+	public Player() {
+		this.x = 100; //coordenada de spawn;
+		this.y = 100;//coordenada de spawn;
+	}
+
+	public void load() {
+		ImageIcon src = new ImageIcon("res\\player1.png");
+		img = src.getImage();
+		altura = img.getHeight(null);
+		largura = img.getWidth(null);
+;	}
+}

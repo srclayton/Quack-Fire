@@ -1,0 +1,10 @@
+package player;
+
+import java.awt.Image;
+
+public class Player {
+	private int x, y; //coordenadas 
+	private int dx, dy; //coordenada
+	private Image img;
+	private int altura, largura;
+}

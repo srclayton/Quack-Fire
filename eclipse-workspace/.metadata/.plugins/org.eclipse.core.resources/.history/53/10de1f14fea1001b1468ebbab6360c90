@@ -1,0 +1,20 @@
+package janela;
+
+import javax.swing.JFrame;
+import fase.Fase;
+public class Janela extends JFrame{
+	
+	private  int numOperacao = 3;
+	private int alturaJanela = 1336;
+	private int larguraJanela = 720;
+	
+	public Janela() {
+		add(new Fase());
+		setTitle("Meu primeiro jogo"); // TITULO DA JANELA
+		setDefaultCloseOperation(numOperacao); // OPERAÇÕES DA JANELA, MAXIMIZARM, MINIMIZAR E FECHA;
+		setSize(alturaJanela, larguraJanela); // DEFINE O TAMANHO DA JANELA;
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setVisible(true);
+	}
+}

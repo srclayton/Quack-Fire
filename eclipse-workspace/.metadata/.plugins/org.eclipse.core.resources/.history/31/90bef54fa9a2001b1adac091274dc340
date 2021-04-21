@@ -1,0 +1,26 @@
+package inimigos;
+
+import java.awt.event.KeyEvent;
+
+import javax.swing.ImageIcon;
+
+import player.Player;
+
+public class Inimigo extends Player{
+	
+	@Override
+	public void load() {
+		ImageIcon src = new ImageIcon("res\\player1");
+		img = src.getImage();
+		altura = img.getHeight(null);
+		largura = img.getWidth(null);
+	}
+	@Override
+	public void keyPressed(KeyEvent tecla) {
+		
+	}
+	@Override
+	public void KeyRelease(KeyEvent tecla) {
+		
+	}
+}

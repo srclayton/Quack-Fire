@@ -1,0 +1,25 @@
+package inimigos;
+
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+public class Inimigo {
+	private Image img;
+	private int x, y;
+	private int largura, altura;
+	private boolean visivel;
+	
+	private static int VELOCIDADE = 2;
+	
+	
+	public Inimigo(int x, int y) {
+		this.x = x;
+		this.y = y;
+		visivel = true;
+	}
+	
+	public void load() {
+		ImageIcon src = new ImageIcoon("res\\player1.png");
+	}
+}
