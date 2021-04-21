@@ -1,0 +1,51 @@
+package inimigos;
+
+import java.awt.Image;
+import java.util.Random;
+
+import javax.swing.ImageIcon;
+
+
+public class Pato {
+	protected int x, y; //coordenadas 
+	protected int dx, dy; //coordenada
+	protected Image img;
+	protected int altura, largura;
+	private static int qntd = 50;
+	private int impar_par = 0;
+	public Pato(int x, int y) {
+		this.x=x;
+		this.y=y;		
+	}
+	public void load() {
+		ImageIcon src = new ImageIcon("res\\player1.png");
+		img = src.getImage();
+		altura = img.getHeight(null);
+		largura = img.getWidth(null);
+	}
+
+	public void update() {
+		Random dice = new Random();
+		x -= ;
+		if(impar_par % 2 == 0)
+			y += dice.nextInt(3)+0;
+		else
+			y -= dice.nextInt(3)+0;
+		impar_par++;
+		System.out.println(impar_par);
+	}
+	public static int getQntd() {
+		return qntd;
+	}
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Image getImg() {
+		return img;
+	}
+}

@@ -11,4 +11,7 @@
     <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
     <fullyQualifiedTypeName name="inimigos.Inimigo"/>
     <fullyQualifiedTypeName name="java.util.Random"/>
+    <fullyQualifiedTypeName name="inimigos.PatoDourado"/>
+    <fullyQualifiedTypeName name="inimigos.PatoPequeno"/>
+    <fullyQualifiedTypeName name="inimigos.PatoFedido"/>
 </qualifiedTypeNameHistroy>

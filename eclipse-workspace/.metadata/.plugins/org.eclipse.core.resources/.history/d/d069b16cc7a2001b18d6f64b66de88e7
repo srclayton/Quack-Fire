@@ -1,0 +1,5 @@
+package inimigos;
+
+public class PatoPequeno extends Pato {
+
+}

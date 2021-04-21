@@ -13,7 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import inimigos.Inimigo;
+import inimigos.Pato;
+import inimigos.PatoDourado;
+import inimigos.PatoFedido;
+import inimigos.PatoPequeno;
 import janela.Janela;
 import player.Player;
 import player.Player2;
@@ -22,8 +25,10 @@ public class Fase extends JPanel implements ActionListener{
 	private Image fundo; // background da fase
 	private Player player; // declaro o primeiro player
 	private Player2 player2; // segundo player
-	private Inimigo inimigo[];
-
+	private Pato inimigo[];
+	private PatoDourado inimigoDourado[];
+	private PatoPequeno inimigoPequeno[];
+	private PatoFedido inimigoFedido[];
 	
 	
 	private Timer timer;	// timer
@@ -33,25 +38,38 @@ public class Fase extends JPanel implements ActionListener{
 		ImageIcon img = new ImageIcon("res\\City4.png"); // recebo o src da img;
 		img.setImage(img.getImage().getScaledInstance(Janela.getAlturaJanela(), Janela.getLarguraJanela(), ABORT));
 		this.fundo = img.getImage(); // seto o background cm o src anterior;
+		inicializaJogadores();
+		inicializaInimigos();
+		addKeyListener(new TecladoAdapter()); // leitura das teclas
+		
+		timer=  new Timer(5, this); // atualiza a cada 1seg
+		timer.start();
+	}
+	public void inicializaJogadores() {
 		player = new Player(100,100); // construo o primeiro jogador
 		player.load(); // atualizo o mesmo, imagem e mais detalhes;
 		player2= new Player2(100,100);
 		player2.load();
-		inicializaInimigos();
-		addKeyListener(new TecladoAdapter()); // leitura das teclas
-		
-		timer=  new Timer(1, this); // atualiza a cada 1seg
-		timer.start();
 	}
-	
 	public void inicializaInimigos() {
-		inimigo = new Inimigo[Inimigo.getQntd()];
+		inimigo = new Pato[Pato.getQntd()];
+		inimigoDourado = new PatoDourado[PatoDourado.getQntd()];
+		inimigoPequeno = new PatoPequeno[PatoPequeno.getQntd()];
+		inimigoFedido = new PatoFedido[PatoFedido.getQntd()];
 		Random dice = new Random();
-		for(int i =0; i < Inimigo.getQntd(); i++) {
-			Inimigo aux = new Inimigo(dice.nextInt(Janela.getLarguraJanela()+8000), dice.nextInt(Janela.getAlturaJanela())+1);
+		for(int i =0; i < Pato.getQntd(); i++) {
+			Pato aux = new Pato(dice.nextInt(Janela.getLarguraJanela()+5000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
 			aux.load();
 			inimigo[i] = aux;
-			
+			PatoDourado aux2 = new PatoDourado(dice.nextInt(Janela.getLarguraJanela()+200000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
+			aux2.load();
+			inimigoDourado[i]= aux2;
+			PatoPequeno aux3 = new PatoPequeno(dice.nextInt(Janela.getLarguraJanela()+50000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
+			aux3.load();
+			inimigoPequeno[i]= aux3;
+			PatoFedido aux4 = new PatoFedido(dice.nextInt(Janela.getLarguraJanela()+9000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
+			aux4.load();
+			inimigoFedido[i] = aux4;
 		}
 	}
 	
@@ -60,10 +78,16 @@ public class Fase extends JPanel implements ActionListener{
 		graficos.drawImage(fundo, 0, 0, null);
 		graficos.drawImage(player.getImg(), player.getX(), player.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
-		for(int i =0; i < Inimigo.getQntd(); i++) {
-			Inimigo aux = inimigo[i];
+		for(int i =0; i < Pato.getQntd(); i++) {
+			Pato aux = inimigo[i];
+			PatoDourado aux2 = inimigoDourado[i];
+			PatoPequeno aux3 = inimigoPequeno[i];
+			PatoFedido aux4 = inimigoFedido[i];
 			graficos.drawImage(aux.getImg(), aux.getX(), aux.getY(), this);
-			System.out.println(i);
+			graficos.drawImage(aux2.getImg(), aux2.getX(), aux2.getY(), this);
+			graficos.drawImage(aux3.getImg(), aux3.getX(), aux3.getY(), this);
+			graficos.drawImage(aux4.getImg(), aux4.getX(), aux4.getY(), this);
+
 		}
 		g.dispose();
 	}
@@ -72,9 +96,15 @@ public class Fase extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		player.update();
 		player2.update();
-		for(int i =0; i < Inimigo.getQntd(); i++) {
-			Inimigo aux = inimigo[i];
+		for(int i =0; i < Pato.getQntd(); i++) {
+			Pato aux = inimigo[i];
+			PatoDourado aux2 = inimigoDourado[i];
+			PatoPequeno aux3= inimigoPequeno[i];
+			PatoFedido aux4 = inimigoFedido[i];
 			aux.update();
+			aux2.update();
+			aux3.update();
+			aux4.update();
 		}
 		repaint();
 	}

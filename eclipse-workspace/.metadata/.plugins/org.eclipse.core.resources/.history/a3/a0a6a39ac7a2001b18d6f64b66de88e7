@@ -1,0 +1,9 @@
+package inimigos;
+
+public class PatoPequeno extends Pato {
+
+	public PatoPequeno(int x, int y) {
+		super(x, y);
+	}
+
+}

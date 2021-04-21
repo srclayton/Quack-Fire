@@ -1,6 +1,4 @@
 package principal;
-import javax.swing.JFrame;
-
 import janela.Janela;
 
 public class Executar {

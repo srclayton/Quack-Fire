@@ -1,0 +1,20 @@
+package inimigos;
+
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+public class PadoFedido extends Pato {
+
+	public PadoFedido(int x, int y) {
+		super(x, y);
+	}
+	@Override
+	public void load() {
+		ImageIcon src = new ImageIcon("res\\StinkDuck.png");
+		src.setImage(src.getImage().getScaledInstance( 85 , 85, Image.SCALE_SMOOTH));
+		img = src.getImage();
+		altura = img.getHeight(null);
+		largura = img.getWidth(null);
+	}
+}
