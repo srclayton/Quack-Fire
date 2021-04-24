@@ -58,7 +58,7 @@ public class Fase extends JPanel implements ActionListener{
 		inimigoFedido = new PatoFedido[PatoFedido.getQntd()];
 		Random dice = new Random();
 		for(int i =0; i < Pato.getQntd(); i++) {
-			Pato aux = new Pato(dice.nextInt(Janela.getLarguraJanela()+5000), dice.nextInt(Janela.getAlturaJanela()-100)+1);
+			Pato aux = new Pato(dice.nextInt(Janela.getLarguraJanela()+5000), dice.nextInt(Janela.getAlturaJanela()-300)+300);
 			aux.load();
 			inimigo[i] = aux;
 			PatoDourado aux2 = new PatoDourado(dice.nextInt(Janela.getLarguraJanela()+200000), dice.nextInt(Janela.getAlturaJanela()-300)+1);

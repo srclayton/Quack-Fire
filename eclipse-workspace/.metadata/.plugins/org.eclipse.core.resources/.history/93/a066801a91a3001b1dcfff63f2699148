@@ -27,7 +27,7 @@ public class PatoDourado extends Pato {
 		if(impar_par % 2 == 0)
 			y += dice.nextInt(3)+0;
 		else
-			y -= dice.nextInt(4)+0;
+			y -= dice.nextInt(3)+0;
 		impar_par++;
 	}
 	
