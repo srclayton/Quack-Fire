@@ -1,0 +1,16 @@
+package player;
+
+import java.awt.Image;
+
+public class Jogador {
+	protected int x, y; //coordenadas 
+	protected int dx, dy; //coordenada
+	protected Image img;
+	protected int altura, largura;
+	protected String[] teclas;
+	
+	public Jogador(String teclas[], String srcImg, int x, int y) {
+		for(int i =0; i< 5; i++)
+			this.teclas[i] = teclas[i];
+	}
+}

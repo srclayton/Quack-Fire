@@ -18,13 +18,15 @@ import inimigos.PatoDourado;
 import inimigos.PatoFedido;
 import inimigos.PatoPequeno;
 import janela.Janela;
+import player.Jogador;
 import player.Player;
 import player.Player2;
 
 public class Fase extends JPanel implements ActionListener{
 	private Image fundo; // background da fase
-	private Player player; // declaro o primeiro player
-	private Player2 player2; // segundo player
+	//private Player player; // declaro o primeiro player
+	//private Player2 player2; // segundo player
+	private Jogador player1, player2;
 	private Pato inimigo[];
 	private PatoDourado inimigoDourado[];
 	private PatoPequeno inimigoPequeno[];
@@ -46,10 +48,15 @@ public class Fase extends JPanel implements ActionListener{
 		timer.start();
 	}
 	public void inicializaJogadores() {
-		player = new Player(100,100); // construo o primeiro jogador
-		player.load(); // atualizo o mesmo, imagem e mais detalhes;
-		player2= new Player2(100,100);
+		//player = new Player(100,100); // construo o primeiro jogador
+		//player.load(); // atualizo o mesmo, imagem e mais detalhes;
+		//player2= new Player2(100,100);
+		//player2.load();
+		player1 = new Jogador(1, "res\\mira.png", 100, 100);
+		player1.load();
+		player2 = new Jogador(2, "res\\mira2.png", 100, 100);
 		player2.load();
+		
 	}
 	public void inicializaInimigos() {
 		inimigo = new Pato[Pato.getQntd()];
@@ -87,14 +94,14 @@ public class Fase extends JPanel implements ActionListener{
 			graficos.drawImage(aux4.getImg(), aux4.getX(), aux4.getY(), this);
 
 		}
-		graficos.drawImage(player.getImg(), player.getX(), player.getY(), this);
+		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
 		g.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		player.update();
+		player1.update();
 		player2.update();
 		for(int i =0; i < Pato.getQntd(); i++) {
 			Pato aux = inimigo[i];
@@ -112,12 +119,12 @@ public class Fase extends JPanel implements ActionListener{
 	private class TecladoAdapter extends KeyAdapter{
 		@Override
 		public void keyPressed(KeyEvent e) {
-			player.keyPressed(e);
+			player1.keyPressed(e);
 			player2.keyPressed(e);
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {
-			player.KeyRelease(e);
+			player1.KeyRelease(e);
 			player2.KeyRelease(e);
 		}
 	}

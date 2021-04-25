@@ -1,0 +1,29 @@
+package player;
+
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+public class Jogador {
+	protected int x, y; //coordenadas 
+	protected int dx, dy; //coordenada
+	protected Image img;
+	protected int altura, largura;
+	protected String[] teclas;
+	protected String srcImg;
+	public Jogador(String teclas[], String srcImg, int x, int y) {
+		for(int i =0; i< 5; i++)
+			this.teclas[i] = teclas[i];
+		this.srcImg = srcImg;
+		this.x = x; 
+		this.y = y;
+	}
+	
+	public void load() {
+		ImageIcon src = new ImageIcon("res\\mira.png"); // SELECIONA A IMAGEM DO PLAYER
+		src.setImage(src.getImage().getScaledInstance(50, 50, 100));
+		img = src.getImage(); // SETA A IMG CM COM A IMG SELECIONADA
+		altura = img.getHeight(null); // RECEBO O TAMANHO DA ALTURA 
+		largura = img.getWidth(null); // RECEBO O TAMANHO DA LARGURA
+		}
+}
