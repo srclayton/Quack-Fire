@@ -1,38 +1,31 @@
 package inimigos;
-
+import janela.Janela;
 import java.awt.Image;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class PatoDourado extends Pato {
+public class PatoDourado extends Inimigo {
 	
+	private int indoPraCima = 1;
 
-	public PatoDourado(int x, int y) {
-		super(x, y);
+	public PatoDourado(int x, int y, int pontos) {
+		super(x, y,"res\\GoldDuck.png",15,85,85,5,5,pontos);
 	}
-	@Override
-	public void load() {
-		ImageIcon src = new ImageIcon("res\\GoldDuck.png");
-		src.setImage(src.getImage().getScaledInstance( 85 , 85, Image.SCALE_SMOOTH));
-		img = src.getImage();
-		altura = img.getHeight(null);
-		largura = img.getWidth(null);
-	}
-	@Override
+
+	@Override 
 	public void update() {
-		Random dice = new Random();
-		impar_par = dice.nextInt();
-		x -= 15;
-		if(impar_par % 2 == 0)
-			y += dice.nextInt(3)+0;
-		else
-			y -= dice.nextInt(4)+0;
-		impar_par++;
+
+		x -= velocidade;
+		if(indoPraCima==1) {
+				y -= movCima;
+				if (y<=0)
+					indoPraCima=0;
+		}
+		else {
+				y += movBaixo;
+				if (y>=Janela.getAlturaJanela()-altura)
+					indoPraCima=1;}
 	}
 	
-	public static int getQntd() {
-		return qntd ;
-	}
-
 }

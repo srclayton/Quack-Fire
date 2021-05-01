@@ -5,31 +5,9 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class PatoPequeno extends Pato {
+public class PatoPequeno extends Inimigo{
 	
-	public PatoPequeno(int x, int y) {
-		super(x, y);
-	}
-	@Override
-	public void load() {
-		ImageIcon src = new ImageIcon("res\\SmallDuck.png");
-		src.setImage(src.getImage().getScaledInstance( 50 , 50, Image.SCALE_SMOOTH));
-		img = src.getImage();
-		altura = img.getHeight(null);
-		largura = img.getWidth(null);
-	}
-	@Override
-	public void update() {
-		Random dice = new Random();
-		impar_par = dice.nextInt();
-		x -= 10;
-		if(impar_par % 2 == 0)
-			y += dice.nextInt(3)+0;
-		else
-			y -= dice.nextInt(3)+0;
-		impar_par++;
-	}
-	public static int getQntd() {
-		return qntd ;
+	public PatoPequeno(int x, int y,int pontos) {
+		super(x, y,"res\\SmallDuck.png",10,50,50,3,3,pontos);
 	}
 }

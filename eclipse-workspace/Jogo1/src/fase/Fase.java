@@ -13,32 +13,32 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import inimigos.Pato;
-import inimigos.PatoDourado;
-import inimigos.PatoFedido;
-import inimigos.PatoPequeno;
+import inimigos.*;
 import janela.Janela;
 import player.Jogador;
 import player.Player;
 import player.Player2;
+
 
 public class Fase extends JPanel implements ActionListener{
 	private Image fundo; // background da fase
 	//private Player player; // declaro o primeiro player
 	//private Player2 player2; // segundo player
 	private Jogador player1, player2;
-	private Pato inimigo[];
-	private PatoDourado inimigoDourado[];
-	private PatoPequeno inimigoPequeno[];
-	private PatoFedido inimigoFedido[];
 	
+	private Inimigo inimigos[];
+	private int nPatoNormal= 50;
+	private int nPatoFedorento= 30;
+	private int nPatoPequeno= 80;
+	private int nPatoDourado= 100;
+	private int inimigosVivos=0;
 	
 	private Timer timer;	// timer
 	public Fase(){
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		ImageIcon img = new ImageIcon("res\\City4.png"); // recebo o src da img;
-		img.setImage(img.getImage().getScaledInstance(Janela.getAlturaJanela(), Janela.getLarguraJanela(), ABORT));
+		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
 		this.fundo = img.getImage(); // seto o background cm o src anterior;
 		inicializaJogadores();
 		inicializaInimigos();
@@ -59,32 +59,17 @@ public class Fase extends JPanel implements ActionListener{
 		
 	}
 	public void inicializaInimigos() {
-		inimigo = new Pato[Pato.getQntd()];
-		inimigoDourado = new PatoDourado[PatoDourado.getQntd()];
-		inimigoPequeno = new PatoPequeno[PatoPequeno.getQntd()];
-		inimigoFedido = new PatoFedido[PatoFedido.getQntd()];
-		Random dice = new Random();
-		for(int i =0; i < Pato.getQntd(); i++) {
-			Pato aux = new Pato(dice.nextInt(Janela.getLarguraJanela()+5000), dice.nextInt(Janela.getAlturaJanela()-100)+1);
-			aux.load();
-			inimigo[i] = aux;
-			PatoDourado aux2 = new PatoDourado(dice.nextInt(Janela.getLarguraJanela()+200000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
-			aux2.load();
-			inimigoDourado[i]= aux2;
-			PatoPequeno aux3 = new PatoPequeno(dice.nextInt(Janela.getLarguraJanela()+50000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
-			aux3.load();
-			inimigoPequeno[i]= aux3;
-			PatoFedido aux4 = new PatoFedido(dice.nextInt(Janela.getLarguraJanela()+9000), dice.nextInt(Janela.getAlturaJanela()-300)+1);
-			aux4.load();
-			inimigoFedido[i] = aux4;
-		}
+		
+		inimigos = new Inimigo[nPatoNormal+nPatoFedorento+nPatoPequeno+nPatoDourado];
+		for
+		
 	}
 	
 	public void paint(Graphics g) { // função para mostrar os dados na tela
 		Graphics2D graficos = (Graphics2D) g;
 		graficos.drawImage(fundo, 0, 0, null);
-		for(int i =0; i < Pato.getQntd(); i++) {
-			Pato aux = inimigo[i];
+		for(int i =0; i < 50; i++) {
+			PatoNormal aux = inimigos[i];
 			PatoDourado aux2 = inimigoDourado[i];
 			PatoPequeno aux3 = inimigoPequeno[i];
 			PatoFedido aux4 = inimigoFedido[i];
@@ -103,8 +88,8 @@ public class Fase extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		player1.update();
 		player2.update();
-		for(int i =0; i < Pato.getQntd(); i++) {
-			Pato aux = inimigo[i];
+		for(int i =0; i < 50; i++) {
+			PatoNormal aux = inimigos[i];
 			PatoDourado aux2 = inimigoDourado[i];
 			PatoPequeno aux3= inimigoPequeno[i];
 			PatoFedido aux4 = inimigoFedido[i];
@@ -128,6 +113,12 @@ public class Fase extends JPanel implements ActionListener{
 			player2.KeyRelease(e);
 		}
 	}
-
+	public int atirou(int x,int y) {
+		int pontuacao;
+		//Testa para cada um dos patos
+		//If(esta na mira)
+				pontuacao += o[i].getPontos();
+				o[i] = null;
+	}
 	
 }
