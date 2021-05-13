@@ -52,7 +52,7 @@ public class Jogador {
 				dx = vel;
 			}
 			if (cod == KeyEvent.VK_SPACE) {
-				pontuacao+=atirar();
+				//pontuacao+=atirar();
 			}
 				
 		} else {
