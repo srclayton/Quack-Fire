@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import controle.SpawnerPatoDourado;
+import controle.*;
 import inimigos.*;
 import janela.Janela;
 import player.Jogador;
@@ -27,15 +27,17 @@ public class Fase extends JPanel implements ActionListener{
 	
 	private Jogador player1, player2;
 	private static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
-	private double tempoPatoDourado= 5000;
-	private double tempoPatoPequeno = 1000;
-	private double tempoPatoFedido = 1000;
-	private double tempoPatoNormal =1000;
+	private long tempoPatoDourado= 5500;
+	private long tempoPatoPequeno = 2500;
+	private long tempoPatoFedido = 2000;
+	private long tempoPatoNormal =1200;
+	private long tempoExcluiInimigo=1000;
 	private Timer timerFase;// timer
-	public java.util.Timer timerPatoDourado;
-	private Timer timerPatoPequeno;
-	private Timer timerPatoFedido;
-	private Timer timerPatoNormal;
+	private java.util.Timer timerPatoDourado;
+	private java.util.Timer timerPatoPequeno;
+	private java.util.Timer timerPatoFedido;
+	private java.util.Timer timerPatoNormal;
+	private java.util.Timer timerExcluidor;
 	public Fase(){
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
@@ -43,14 +45,24 @@ public class Fase extends JPanel implements ActionListener{
 		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
 		this.fundo = img.getImage(); // seto o background cm o src anterior;
 		inicializaJogadores();
-		inicializaInimigos();
+//		inicializaInimigos();
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
 		
 		
-		timerFase=  new Timer(5, this); // atualiza a cada 1seg
+		//Inicia os timers
+		timerFase=  new Timer(6, this); // atualiza a cada 1seg
 		timerFase.start();
 		timerPatoDourado = new java.util.Timer();
-		timerPatoDourado.scheduleAtFixedRate(new SpawnerPatoDourado(),0,(long) tempoPatoDourado);
+		timerPatoDourado.scheduleAtFixedRate(new SpawnerPatoDourado(),0,tempoPatoDourado);
+		timerPatoFedido = new java.util.Timer();
+		timerPatoFedido.scheduleAtFixedRate(new SpawnerPatoFedido(),0,tempoPatoFedido);
+		timerPatoNormal = new java.util.Timer();
+		timerPatoNormal.scheduleAtFixedRate(new SpawnerPatoNormal(),0,tempoPatoNormal);
+		timerPatoPequeno = new java.util.Timer();
+		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),0,tempoPatoPequeno);
+		timerExcluidor = new java.util.Timer();
+		timerExcluidor.scheduleAtFixedRate(new ExcluiInimigos(), 1, tempoExcluiInimigo);
+		
 	}
 	
 	public void inicializaJogadores() {
@@ -59,20 +71,25 @@ public class Fase extends JPanel implements ActionListener{
 		player2 = new Jogador(2, "res\\mira2.png", 100, 100);
 		player2.load();
 	}
-	public void inicializaInimigos() {
-		PatoDourado p = new PatoDourado(500,500,500);
-		p.load();
-		ListaInimigos.add(p);
-	}
+//	public void inicializaInimigos() {
+//		PatoDourado p = new PatoDourado(500,500,500);
+//		p.load();
+//		ListaInimigos.add(p);
+//	}
 	
 	public void paint(Graphics g) { // função para mostrar os dados na tela
 		Graphics2D graficos = (Graphics2D) g;
 		graficos.drawImage(fundo, 0, 0, null);
-		//for(int i =0; i < 50; i++) {
-		Inimigo p = ListaInimigos.getLast();
-			graficos.drawImage(p.getImg(),p.getX(),p.getY(),this);
-			//graficos.drawImage(aux4.getImg(), aux4.getX(), aux4.getY(), this);
-		
+		Iterator<Inimigo> it = getListaInimigos().iterator();
+		while(it.hasNext()) {
+			try{
+				Inimigo p = it.next();
+				graficos.drawImage(p.getImg(),p.getX(),p.getY(),this);}
+			catch(Exception e) {
+				break;
+			}
+				
+		}
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
 		g.dispose();
@@ -82,10 +99,11 @@ public class Fase extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		player1.update();
 		player2.update();
-		//for(int i =0; i < 50; i++) {
-		ListaInimigos.getFirst().update();
-		ListaInimigos.getLast().update();
-		System.out.println(ListaInimigos.getLast().getX()+ " "+ListaInimigos.getFirst().getX());
+		Iterator<Inimigo> it = getListaInimigos().iterator();
+		while(it.hasNext()) {
+			Inimigo p = it.next();
+			p.update();
+		}
 		repaint();
 	}
 	

@@ -4,17 +4,16 @@ import java.util.LinkedList;
 import java.util.TimerTask;
 
 import fase.Fase;
-import inimigos.*;
+import inimigos.Inimigo;
+import inimigos.PatoPequeno;
 import janela.Janela;
 
-public class SpawnerPatoDourado extends TimerTask {
+public class SpawnerPatoPequeno extends TimerTask {
 	@Override
 	public void run() {
 		LinkedList<Inimigo>lista=Fase.getListaInimigos();
-		PatoDourado p = new PatoDourado(Janela.getLarguraJanela()+100,(int)(Math.random()*((Janela.getAlturaJanela()-200)+1)),500);
+		PatoPequeno p = new PatoPequeno(Janela.getLarguraJanela()+100,(int)(Math.random()*((Janela.getAlturaJanela()-200)+1)),500);
 		p.load();
 		lista.add(p);
 	}
 }
-
-

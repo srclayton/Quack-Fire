@@ -10,7 +10,7 @@ public class PatoDourado extends Inimigo {
 	private int indoPraCima = 1;
 
 	public PatoDourado(int x, int y, int pontos) {
-		super(x, y,"res/GoldDuck.png",2,85,85,5,5,pontos);
+		super(x, y,"res/GoldDuck.png",12,85,85,5,5,pontos);
 	}
 
 	@Override 
@@ -24,7 +24,7 @@ public class PatoDourado extends Inimigo {
 		}
 		else {
 				y += movBaixo;
-				if (y>=Janela.getAlturaJanela()-altura)
+				if (y>=Janela.getAlturaJanela()-altura-200)
 					indoPraCima=1;}
 	}
 	
