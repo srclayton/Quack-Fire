@@ -2,6 +2,7 @@ package janela;
 
 import javax.swing.JFrame;
 import fase.Fase;
+import fase.Fase1;
 public class Janela extends JFrame{
 	
 	private  int numOperacao = 3; // quantidade de operação da janela, maximizar, fechar e minimizar;
@@ -9,7 +10,7 @@ public class Janela extends JFrame{
 	private static int larguraJanela = 1024;
 	
 	public Janela() {
-		add(new Fase()); // adiciona a fase para rolar;
+		add(new Fase1()); // adiciona a fase para rolar;
 		setTitle("Quack fire!"); // TITULO DA JANELA
 		setDefaultCloseOperation(numOperacao); // OPERAÃ‡Ã•ES DA JANELA, MAXIMIZARM, MINIMIZAR E FECHA;
 		setSize(larguraJanela,alturaJanela); // DEFINE O TAMANHO DA JANELA;

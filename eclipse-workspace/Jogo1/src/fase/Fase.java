@@ -21,16 +21,16 @@ import player.Player;
 import player.Player2;
 
 public class Fase extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image fundo; // background da fase
 	//private Player player; // declaro o primeiro player
 	//private Player2 player2; // segundo player
-	
+	public int faseAtual;
 	private Jogador player1, player2;
 	private static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
-	private long tempoPatoDourado= 5500;
-	private long tempoPatoPequeno = 2500;
-	private long tempoPatoFedido = 2000;
-	private long tempoPatoNormal =1200;
 	private long tempoExcluiInimigo=1000;
 	private Timer timerFase;// timer
 	private java.util.Timer timerPatoDourado;
@@ -38,18 +38,16 @@ public class Fase extends JPanel implements ActionListener{
 	private java.util.Timer timerPatoFedido;
 	private java.util.Timer timerPatoNormal;
 	private java.util.Timer timerExcluidor;
-	public Fase(){
+	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno,String imgURL,int NumeroFase){
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
-		ImageIcon img = new ImageIcon("res\\City4.png"); // recebo o src da img;
+		ImageIcon img = new ImageIcon(imgURL); // recebo o src da img;
 		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
 		this.fundo = img.getImage(); // seto o background cm o src anterior;
 		inicializaJogadores();
-//		inicializaInimigos();
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
+		this.faseAtual=NumeroFase;
 		
-		
-		//Inicia os timers
 		timerFase=  new Timer(6, this); // atualiza a cada 1seg
 		timerFase.start();
 		timerPatoDourado = new java.util.Timer();
@@ -71,11 +69,6 @@ public class Fase extends JPanel implements ActionListener{
 		player2 = new Jogador(2, "res\\mira2.png", 100, 100);
 		player2.load();
 	}
-//	public void inicializaInimigos() {
-//		PatoDourado p = new PatoDourado(500,500,500);
-//		p.load();
-//		ListaInimigos.add(p);
-//	}
 	
 	public void paint(Graphics g) { // função para mostrar os dados na tela
 		Graphics2D graficos = (Graphics2D) g;
@@ -122,12 +115,6 @@ public class Fase extends JPanel implements ActionListener{
 	public static LinkedList<Inimigo> getListaInimigos() {
 		return ListaInimigos;
 	}
-//	public int atirou(int x,int y) {
-//		int pontuacao;
-//		//Testa para cada um dos patos
-//		//If(esta na mira)
-//				pontuacao += o[i].getPontos();
-//				o[i] = null;
-//	}
-	
 }
+	
+	

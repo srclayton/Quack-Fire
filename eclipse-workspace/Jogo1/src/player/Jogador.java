@@ -2,8 +2,12 @@ package player;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
+
+import inimigos.Inimigo;
+import fase.Fase;
 
 public class Jogador {
 	protected int x, y; // coordenadas
@@ -52,7 +56,7 @@ public class Jogador {
 				dx = vel;
 			}
 			if (cod == KeyEvent.VK_SPACE) {
-				//pontuacao+=atirar();
+				pontuacao+=atirar();
 			}
 				
 		} else {
@@ -69,6 +73,9 @@ public class Jogador {
 			}
 			if (cod == KeyEvent.VK_RIGHT) {
 				dx = vel;
+			}
+			if (cod == KeyEvent.VK_ENTER) {
+				pontuacao+=atirar();
 			}
 		}
 	}
@@ -119,4 +126,19 @@ public class Jogador {
 	public Image getImg() {
 		return img;
 	}
+	public int atirar() {
+		int pont = 0;
+		Iterator<Inimigo> it = Fase.getListaInimigos().iterator();
+		while(it.hasNext()) {
+			Inimigo p = it.next();
+			if(x+15>p.getX()&&x+15<p.getX()+p.getAltura()&&y+15>p.getY()&&y+15<p.getAltura()+p.getY()) {
+				pont+=p.getPontos();
+				it.remove();
+		}
+			
+	}
+		
+		return pont;
+	
+}
 }
