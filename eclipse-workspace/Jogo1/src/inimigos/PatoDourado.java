@@ -10,9 +10,15 @@ public class PatoDourado extends Inimigo {
 	private int indoPraCima = 1;
 
 	public PatoDourado(int x, int y, int pontos) {
-		super(x, y,"res/GoldDuck.png",12,85,85,5,5,pontos);
+		super(x, y,"res/GoldDuck.png",7,85,85,5,5,pontos);
 	}
-
+	/*============================================================
+	 * Override do metodo update da classe Inimigo, que além de 
+	 * se movimentar da direita para a esquerda, agora
+	 * o pato dourado se movimenta em zig zag em toda tela, de cima
+	 * para baxo até tocar suas extremidades.
+	 * ===========================================================
+	 */
 	@Override 
 	public void update() {
 
