@@ -10,4 +10,10 @@ public class PatoPequeno extends Inimigo{
 	public PatoPequeno(int x, int y,int pontos) {
 		super(x, y,"res\\SmallDuck.png",6,50,50,3,3,pontos);
 	}
+
+	@Override
+	public void setImg(String srcImg) {
+		// TODO Auto-generated method stub
+		
+	}
 }
