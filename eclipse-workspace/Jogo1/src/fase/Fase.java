@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,6 +18,8 @@ import controle.*;
 import inimigos.*;
 import janela.Janela;
 import player.Jogador;
+import player.Player;
+import player.Player2;
 
 public class Fase extends JPanel implements ActionListener{
 	/**
@@ -29,13 +32,14 @@ public class Fase extends JPanel implements ActionListener{
 	private static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
 	private long tempoExcluiInimigo=1000;
 	private Timer timerFase;// timer
+	private boolean ballonBoy = false;
 	private java.util.Timer timerPatoDourado;
 	private java.util.Timer timerPatoPequeno;
 	private java.util.Timer timerPatoFedido;
 	private java.util.Timer timerPatoNormal;
 	private java.util.Timer timerExcluidor;
 	private java.util.Timer timerBallonBoy;
-	
+
 
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
@@ -43,7 +47,6 @@ public class Fase extends JPanel implements ActionListener{
 	 *da fase em questão, 
 	 *===================================================================================*/
 	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int NumeroFase){
-
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		ImageIcon img = new ImageIcon(imgURL); // recebo o src da img;
@@ -55,8 +58,8 @@ public class Fase extends JPanel implements ActionListener{
 		this.faseAtual=NumeroFase;
 		timerFase=  new Timer(6, this); // 
 		timerFase.start();
-		
-		
+
+		System.out.println(player1.getPontuacao());
 	}
 	/*============================================================================
 	 * Metodo para spawnar os jogadores, invocando sua construtora e passando
@@ -106,11 +109,10 @@ public class Fase extends JPanel implements ActionListener{
 				break;
 			}
 				
-		}		
+		}
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
 		g.dispose();
-
 	}
 	/*====================actionPerformed===========================
 	 * Metodo responsavel para faze a atualização constante da fase.
@@ -129,7 +131,6 @@ public class Fase extends JPanel implements ActionListener{
 				break;
 			}
 		}
-		System.out.println(player1.getPontuacao());
 		repaint();
 	}
 	/*================class TecladoAdapter=======================

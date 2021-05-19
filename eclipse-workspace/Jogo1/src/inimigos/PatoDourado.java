@@ -33,10 +33,5 @@ public class PatoDourado extends Inimigo {
 				if (y>=Janela.getAlturaJanela()-altura-200)
 					indoPraCima=1;}
 	}
-	@Override
-	public void setImg(String srcImg) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
