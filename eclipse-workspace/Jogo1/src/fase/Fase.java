@@ -15,11 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import controle.*;
+import dao.*;
 import inimigos.*;
 import janela.Janela;
 import player.Jogador;
-import player.Player;
-import player.Player2;
 
 public class Fase extends JPanel implements ActionListener{
 	/**
@@ -40,6 +39,7 @@ public class Fase extends JPanel implements ActionListener{
 	private java.util.Timer timerExcluidor;
 	private java.util.Timer timerBallonBoy;
 
+	public int testando =0;
 
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
@@ -51,15 +51,30 @@ public class Fase extends JPanel implements ActionListener{
 		setDoubleBuffered(true);
 		ImageIcon img = new ImageIcon(imgURL); // recebo o src da img;
 		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
-		this.fundo = img.getImage(); // seto o background cm o src anterior;
+		this.fundo = img.getImage();
+		construirSaveAntigo();// seto o background cm o src anterior;
 		inicializaJogadores();
 		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno, tempoBallonBoy);
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
 		this.faseAtual=NumeroFase;
 		timerFase=  new Timer(6, this); // 
 		timerFase.start();
-
+		
 		System.out.println(player1.getPontuacao());
+	}
+	public void construirSaveAntigo() {
+		InimigoDao iDAO = new InimigoDao();
+		iDAO.Construtora("username");
+//		Iterator<Inimigo> it = getListaInimigos().iterator();
+//		while(it.hasNext()) {
+//			try{
+//				Inimigo p = it.next();
+//				p.load();}
+//			catch(Exception e) {
+//				break;
+//			}
+//				
+//		}
 	}
 	/*============================================================================
 	 * Metodo para spawnar os jogadores, invocando sua construtora e passando
@@ -79,17 +94,17 @@ public class Fase extends JPanel implements ActionListener{
 	 */
 	public void inicializaInimigos(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno,int tempoBallonBoy) {
 		timerPatoDourado = new java.util.Timer();
-		timerPatoDourado.scheduleAtFixedRate(new SpawnerPatoDourado(),0,tempoPatoDourado);
+		timerPatoDourado.scheduleAtFixedRate(new SpawnerPatoDourado(),30,tempoPatoDourado);
 		timerPatoFedido = new java.util.Timer();
-		timerPatoFedido.scheduleAtFixedRate(new SpawnerPatoFedido(),0,tempoPatoFedido);
+		timerPatoFedido.scheduleAtFixedRate(new SpawnerPatoFedido(),30,tempoPatoFedido);
 		timerPatoNormal = new java.util.Timer();
-		timerPatoNormal.scheduleAtFixedRate(new SpawnerPatoNormal(),0,tempoPatoNormal);
+		timerPatoNormal.scheduleAtFixedRate(new SpawnerPatoNormal(),30,tempoPatoNormal);
 		timerPatoPequeno = new java.util.Timer();
-		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),0,tempoPatoPequeno);
+		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),30,tempoPatoPequeno);
 		timerBallonBoy = new java.util.Timer();
-		timerBallonBoy.scheduleAtFixedRate(new SpawnerBallonBoy(), 0, tempoBallonBoy);
+		timerBallonBoy.scheduleAtFixedRate(new SpawnerBallonBoy(), 30, tempoBallonBoy);
 		timerExcluidor = new java.util.Timer();
-		timerExcluidor.scheduleAtFixedRate(new ExcluiInimigos(), 1, tempoExcluiInimigo);
+		timerExcluidor.scheduleAtFixedRate(new ExcluiInimigos(), 500, tempoExcluiInimigo);
 		
 	}
 	/*==================public void pain==========================================
@@ -131,6 +146,10 @@ public class Fase extends JPanel implements ActionListener{
 				break;
 			}
 		}
+//		testando++;
+//		if (testando==1000)
+//		{
+//			salvar();}
 		repaint();
 	}
 	/*================class TecladoAdapter=======================
@@ -150,6 +169,23 @@ public class Fase extends JPanel implements ActionListener{
 			player2.KeyRelease(e);
 		}
 	}
+	public void salvar() {
+		Iterator<Inimigo> it = getListaInimigos().iterator();
+		int i=0;
+		while(it.hasNext()) {
+			
+			i++;
+			try {
+			Inimigo p = it.next();
+			InimigoDao pDAO = new InimigoDao();
+			pDAO.inserir(p,i,"username");
+			}
+			catch(Exception p){
+				break;}
+			}
+		
+	}
+	
 	public static LinkedList<Inimigo> getListaInimigos() {
 		return ListaInimigos;
 	}

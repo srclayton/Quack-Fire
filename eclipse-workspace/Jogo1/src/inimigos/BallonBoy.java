@@ -10,7 +10,7 @@ import janela.Janela;
 public class BallonBoy extends Inimigo{
 	private boolean indoParaEsquerda = true;
 	public BallonBoy(int x, int y, int pontos) {
-		super(x, y,"res\\BallonBoy2.png",2,150,150,2,2,pontos);
+		super(x, y,"res\\BallonBoy2.png",2,150,150,2,2,5,pontos);
 	}
 	
 	

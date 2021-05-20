@@ -15,13 +15,14 @@ public class Inimigo {
 	protected int movCima;
 	protected int movBaixo;
 	protected int pontos;
+	protected int id;
 	/*======================public Inimigo====================
 	 * Construtora de inimigos, recebe todos os dados 
 	 * nescessarios para spawnar um inimigo, img, velocidade, 
 	 * e suas coordenadas.
 	 * ========================================================
 	 */
-	public Inimigo(int x, int y,String imgUrl,int vel,int altura, int largura,int yN,int yP,int pontos) {
+	public Inimigo(int x, int y,String imgUrl,int vel,int altura, int largura,int yN,int yP,int id,int pontos) {
 		this.x=x;
 		this.y=y;		
 		this.imgUrl = imgUrl; 
@@ -30,6 +31,7 @@ public class Inimigo {
 		this.velocidade = vel;
 		this.movBaixo = yN;
 		this.movCima= yP;
+		this.id=id;
 		this.pontos = pontos;
 	}
 	/*
@@ -77,7 +79,9 @@ public class Inimigo {
 	public int getPontos() {
 		return pontos;
 	}
-
+	public int getID() {
+		return id;
+	}
 
 
 }
