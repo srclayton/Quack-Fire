@@ -55,7 +55,6 @@ public class InimigoDao{
 			try {
 				JSONObject obj = new JSONObject(line);
 				JSONObject inimigoJSON = (JSONObject) obj.get("Inimigo"+i);
-				System.out.println(inimigoJSON.get("id"));
 				if((int)inimigoJSON.get("id")==1){
 					inimigo = new PatoDourado((int)inimigoJSON.get("posX"),(int)inimigoJSON.get("posY"),(int)inimigoJSON.get("pontos"));
 					inimigo.load();
@@ -68,7 +67,6 @@ public class InimigoDao{
 				}
 				else if((int)inimigoJSON.get("id")==3){
 					inimigo = new PatoNormal((int)inimigoJSON.get("posX"),(int)inimigoJSON.get("posY"),(int)inimigoJSON.get("pontos"));
-					System.out.println(inimigo);
 					inimigo.load();
 					listaInimigos.add(inimigo);
 				}

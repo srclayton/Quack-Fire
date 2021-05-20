@@ -46,18 +46,18 @@ public class Fase extends JPanel implements ActionListener{
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
 	 *da fase em questão, 
 	 *===================================================================================*/
-	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int NumeroFase){
+	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int NumeroFase, int taxaDeAtualizacao){
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		ImageIcon img = new ImageIcon(imgURL); // recebo o src da img;
 		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
 		this.fundo = img.getImage();
 		construirSaveAntigo();// seto o background cm o src anterior;
-		inicializaJogadores();
+		//inicializaJogadores();
 		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno, tempoBallonBoy);
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
 		this.faseAtual=NumeroFase;
-		timerFase=  new Timer(6, this); // 
+		timerFase=  new Timer(taxaDeAtualizacao, this); // 
 		timerFase.start();
 		
 		System.out.println(player1.getPontuacao());
@@ -65,16 +65,11 @@ public class Fase extends JPanel implements ActionListener{
 	public void construirSaveAntigo() {
 		InimigoDao iDAO = new InimigoDao();
 		iDAO.Construtora("username");
-//		Iterator<Inimigo> it = getListaInimigos().iterator();
-//		while(it.hasNext()) {
-//			try{
-//				Inimigo p = it.next();
-//				p.load();}
-//			catch(Exception e) {
-//				break;
-//			}
-//				
-//		}
+		JogadorDAO jDAO = new JogadorDAO();
+		player1 = jDAO.Construtora("username", 1);
+		player1.load();
+		player2 = jDAO.Construtora("username", 2);
+		player2.load();
 	}
 	/*============================================================================
 	 * Metodo para spawnar os jogadores, invocando sua construtora e passando
@@ -146,10 +141,10 @@ public class Fase extends JPanel implements ActionListener{
 				break;
 			}
 		}
-//		testando++;
-//		if (testando==1000)
-//		{
-//			salvar();}
+		testando++;
+		if (testando==1000)
+		{
+			salvar();}
 		repaint();
 	}
 	/*================class TecladoAdapter=======================
@@ -183,7 +178,8 @@ public class Fase extends JPanel implements ActionListener{
 			catch(Exception p){
 				break;}
 			}
-		
+		JogadorDAO j = new JogadorDAO();		
+		j.inserir(player1, player2, "username");
 	}
 	
 	public static LinkedList<Inimigo> getListaInimigos() {

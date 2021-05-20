@@ -156,6 +156,9 @@ public class Jogador {
 	public int getPontuacao() {
 		return pontuacao;
 	}
+	public void setPontuacao(int p) {
+		pontuacao = p;
+	}
 
 	public Image getImg() {
 		return img;
