@@ -2,6 +2,7 @@ package janela;
 
 import javax.swing.JFrame;
 import fase.*;
+import principal.Menu;
 
 public class Janela extends JFrame{
 	
@@ -10,7 +11,8 @@ public class Janela extends JFrame{
 	private static int larguraJanela = 1024;
 	
 	public Janela() {
-		add(new Fase1()); // adiciona a fase para rolar;
+		add(new Menu());
+		////add(new Fase1()); // adiciona a fase para rolar;
 		//add(new Fase2()); // adiciona a fase para rolar;
 		
 		

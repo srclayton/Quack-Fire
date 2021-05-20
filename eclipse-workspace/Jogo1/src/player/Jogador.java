@@ -182,4 +182,8 @@ public class Jogador {
 		return pont;
 	
 }
+	public void deletImg() {
+		img = null;
+	}
+	
 }

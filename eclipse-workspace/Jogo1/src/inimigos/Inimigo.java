@@ -6,7 +6,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Inimigo {
+public abstract class Inimigo {
 	protected int x, y; //coordenadas 
 	protected Image img;
 	protected String imgUrl;
@@ -83,5 +83,9 @@ public class Inimigo {
 		return id;
 	}
 
+	public abstract void setImg(String srcImg);	
+	public void deletImg() {
+		img = null;
+	}
 
 }

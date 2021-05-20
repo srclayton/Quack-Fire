@@ -38,6 +38,7 @@ public class BallonBoy extends Inimigo{
 		else
 			y -= dice.nextInt(movBaixo)+0;			
 	}
+	@Override
 	public void setImg(String srcImg) {
 		ImageIcon src = new ImageIcon(srcImg);
 		src.setImage(src.getImage().getScaledInstance( largura , altura, Image.SCALE_SMOOTH));

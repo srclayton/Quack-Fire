@@ -6,17 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import fase.Fase;
-import inimigos.Inimigo;
-import inimigos.PatoDourado;
-import inimigos.PatoFedido;
-import inimigos.PatoNormal;
-import inimigos.PatoPequeno;
 import player.Jogador;
 
 public class JogadorDAO {

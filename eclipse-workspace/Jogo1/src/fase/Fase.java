@@ -31,13 +31,13 @@ public class Fase extends JPanel implements ActionListener{
 	private static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
 	private long tempoExcluiInimigo=1000;
 	private Timer timerFase;// timer
-	private boolean ballonBoy = false;
 	private java.util.Timer timerPatoDourado;
 	private java.util.Timer timerPatoPequeno;
 	private java.util.Timer timerPatoFedido;
 	private java.util.Timer timerPatoNormal;
 	private java.util.Timer timerExcluidor;
 	private java.util.Timer timerBallonBoy;
+	private Graphics2D graficos;
 
 	public int testando =0;
 
@@ -59,8 +59,9 @@ public class Fase extends JPanel implements ActionListener{
 		this.faseAtual=NumeroFase;
 		timerFase=  new Timer(taxaDeAtualizacao, this); // 
 		timerFase.start();
+
 		
-		System.out.println(player1.getPontuacao());
+		System.out.println("AAAAAAAAAAAAAAA");
 	}
 	public void construirSaveAntigo() {
 		InimigoDao iDAO = new InimigoDao();
@@ -108,7 +109,8 @@ public class Fase extends JPanel implements ActionListener{
 	 * ===========================================================================
 	 */
 	public void paint(Graphics g) { 
-		Graphics2D graficos = (Graphics2D) g;
+		this.requestFocus();
+		graficos = (Graphics2D) g;
 		graficos.drawImage(fundo, 0, 0, null);
 		Iterator<Inimigo> it = getListaInimigos().iterator();
 		while(it.hasNext()) {
@@ -143,8 +145,27 @@ public class Fase extends JPanel implements ActionListener{
 		}
 		testando++;
 		if (testando==1000)
-		{
-			salvar();}
+		{	//Menu.setFase(null);
+			timerFase.stop();
+			player1.deletImg();
+			player2.deletImg();
+			
+			Iterator<Inimigo> iterador= getListaInimigos().iterator();
+			while(iterador.hasNext()) {
+				try {
+				Inimigo in = iterador.next();
+				in.deletImg();
+				iterador.remove();
+				}
+				catch(Exception in){
+					break;}
+				}
+			
+			this.removeAll();
+			validate();
+			repaint();
+			salvar();
+			}
 		repaint();
 	}
 	/*================class TecladoAdapter=======================

@@ -19,9 +19,7 @@ public class InimigoDao{
         	detalhesInimigo.put("id", i.getID());
         	detalhesInimigo.put("posX", i.getX());
         	detalhesInimigo.put("posY", i.getY());
-        	detalhesInimigo.put("pontos", i.getPontos());
-			
-			
+        	detalhesInimigo.put("pontos", i.getPontos());			
 			patoDocumentado.put("Inimigo"+index, detalhesInimigo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -75,11 +73,11 @@ public class InimigoDao{
 					inimigo.load();
 					listaInimigos.add(inimigo);
 				}
-//				else if((int)inimigoJSON.get("id")==5){
-//					inimigo = new BallonBoy((int)inimigoJSON.get("posX"),(int)inimigoJSON.get("posY"),(int)inimigoJSON.get("pontos"));
-//					inimigo.load();
-//					listaInimigos.add(inimigo);
-//				}
+				else if((int)inimigoJSON.get("id")==5){
+					inimigo = new BallonBoy((int)inimigoJSON.get("posX"),(int)inimigoJSON.get("posY"),(int)inimigoJSON.get("pontos"));
+					inimigo.load();
+					listaInimigos.add(inimigo);
+				}
 				
 			} catch (JSONException e) {
 				e.printStackTrace();
