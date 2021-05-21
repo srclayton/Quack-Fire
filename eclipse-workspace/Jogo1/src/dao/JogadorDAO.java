@@ -12,7 +12,7 @@ import player.Jogador;
 
 public class JogadorDAO {
 		
-		public void inserir(Jogador j1,Jogador j2,String username) {
+		public void inserir(int numFase,Jogador j1,Jogador j2,String username) {
 			
 			JSONObject detalhesJogador1 = new JSONObject();
 			JSONObject jogador1Documentado = new JSONObject(); 
@@ -42,7 +42,7 @@ public class JogadorDAO {
 			}
 	        
 	        try {
-	        	BufferedWriter writer = new BufferedWriter(new FileWriter(username+"JogadorDAO.json", true));
+	        	BufferedWriter writer = new BufferedWriter(new FileWriter("saves/"+username+"JogadorDAO"+numFase+".json", true));
 	            writer.append(jogador1Documentado.toString());
 	            writer.append(",\n");
 	            writer.append(jogador2Documentado.toString());
@@ -53,11 +53,11 @@ public class JogadorDAO {
 	            e.printStackTrace();
 	          }
 	   }
-		public Jogador Construtora(String username,int index) {
+		public Jogador Construtora(int numFase,String username,int index) {
 			Jogador j = null;
 			try  
 			{  
-				File file=new File(username+"JogadorDAO.json");    //creates a new file instance  
+				File file=new File("saves/"+username+"JogadorDAO"+numFase+".json");    //creates a new file instance  
 				FileReader fr=new FileReader(file);   //reads the file  
 				BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
 				String line;  

@@ -24,52 +24,56 @@ public class Fase extends JPanel implements ActionListener{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private Image fundo; // background da fase
+	protected static final long serialVersionUID = 1L;
+	protected Image fundo; // background da fase
 	public int faseAtual;
-	private Jogador player1, player2;
-	private static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
-	private long tempoExcluiInimigo=1000;
-	private Timer timerFase;// timer
-	private java.util.Timer timerPatoDourado;
-	private java.util.Timer timerPatoPequeno;
-	private java.util.Timer timerPatoFedido;
-	private java.util.Timer timerPatoNormal;
-	private java.util.Timer timerExcluidor;
-	private java.util.Timer timerBallonBoy;
-	private Graphics2D graficos;
-
-	public int testando =0;
+	protected Jogador player1, player2;
+	protected static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
+	protected long tempoExcluiInimigo=1000;
+	protected Timer timerFase;// timer
+	protected java.util.Timer timerPatoDourado;
+	protected java.util.Timer timerPatoPequeno;
+	protected java.util.Timer timerPatoFedido;
+	protected java.util.Timer timerPatoNormal;
+	protected java.util.Timer timerExcluidor;
+	protected Graphics2D graficos;
+	protected int tempoTotal=0;
+	protected int tempoSegundosTotais=10;
+	protected int taxaDeAtualizacao;
 
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
 	 *da fase em questão, 
 	 *===================================================================================*/
-	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int NumeroFase, int taxaDeAtualizacao){
+	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int numeroFase, int taxaDeAtualizacao,boolean usarSave){
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
+		this.taxaDeAtualizacao = taxaDeAtualizacao;
 		ImageIcon img = new ImageIcon(imgURL); // recebo o src da img;
 		img.setImage(img.getImage().getScaledInstance(Janela.getLarguraJanela(), Janela.getAlturaJanela(), ABORT));
 		this.fundo = img.getImage();
-		construirSaveAntigo();// seto o background cm o src anterior;
-		//inicializaJogadores();
-		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno, tempoBallonBoy);
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
-		this.faseAtual=NumeroFase;
+		this.faseAtual=numeroFase;
 		timerFase=  new Timer(taxaDeAtualizacao, this); // 
 		timerFase.start();
-
-		
+		tempoTotal=0;
+		if(usarSave){
+			construirSaveAntigo();
+		}
+		else {
+			inicializaJogadores();
+		}
+		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno);
 		System.out.println("AAAAAAAAAAAAAAA");
 	}
 	public void construirSaveAntigo() {
 		InimigoDao iDAO = new InimigoDao();
-		iDAO.Construtora("username");
+		iDAO.Construtora(faseAtual,"username");
 		JogadorDAO jDAO = new JogadorDAO();
-		player1 = jDAO.Construtora("username", 1);
+		player1 = jDAO.Construtora(faseAtual,"username", 1);
 		player1.load();
-		player2 = jDAO.Construtora("username", 2);
+		player2 = jDAO.Construtora(faseAtual,"username", 2);
 		player2.load();
 	}
 	/*============================================================================
@@ -88,7 +92,7 @@ public class Fase extends JPanel implements ActionListener{
 	 * qual inimigo é, src de sua imagem, e suas coordenadas de spawn.
 	 * ===========================================================================
 	 */
-	public void inicializaInimigos(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno,int tempoBallonBoy) {
+	public void inicializaInimigos(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno) {
 		timerPatoDourado = new java.util.Timer();
 		timerPatoDourado.scheduleAtFixedRate(new SpawnerPatoDourado(),30,tempoPatoDourado);
 		timerPatoFedido = new java.util.Timer();
@@ -97,8 +101,6 @@ public class Fase extends JPanel implements ActionListener{
 		timerPatoNormal.scheduleAtFixedRate(new SpawnerPatoNormal(),30,tempoPatoNormal);
 		timerPatoPequeno = new java.util.Timer();
 		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),30,tempoPatoPequeno);
-		timerBallonBoy = new java.util.Timer();
-		timerBallonBoy.scheduleAtFixedRate(new SpawnerBallonBoy(), 30, tempoBallonBoy);
 		timerExcluidor = new java.util.Timer();
 		timerExcluidor.scheduleAtFixedRate(new ExcluiInimigos(), 500, tempoExcluiInimigo);
 		
@@ -143,30 +145,40 @@ public class Fase extends JPanel implements ActionListener{
 				break;
 			}
 		}
-		testando++;
-		if (testando==1000)
-		{	//Menu.setFase(null);
-			timerFase.stop();
-			player1.deletImg();
-			player2.deletImg();
-			
-			Iterator<Inimigo> iterador= getListaInimigos().iterator();
-			while(iterador.hasNext()) {
-				try {
-				Inimigo in = iterador.next();
-				in.deletImg();
-				iterador.remove();
-				}
-				catch(Exception in){
-					break;}
-				}
-			
-			this.removeAll();
-			validate();
-			repaint();
+		tempoTotal++;
+		if (tempoTotal>(10000-1800)/taxaDeAtualizacao)
+		{	
+			System.out.println("CCCCCCCCCC");
 			salvar();
-			}
+			encerra();
+		}
 		repaint();
+	}
+	
+	public void encerra() {
+		timerFase.stop();
+		player1.deletImg();
+		player2.deletImg();
+		
+		Iterator<Inimigo> iterador= getListaInimigos().iterator();
+		while(iterador.hasNext()) {
+			try {
+			Inimigo in = iterador.next();
+			in.deletImg();
+			iterador.remove();
+			}
+			catch(Exception in){
+				break;}
+			}
+		timerPatoDourado.cancel();
+		timerPatoFedido.cancel();
+		timerPatoPequeno.cancel();
+		timerPatoNormal.cancel();
+		timerExcluidor.cancel();
+		this.removeAll();
+		validate();
+		repaint();
+		//salvar();
 	}
 	/*================class TecladoAdapter=======================
 	 * Esta classe lida com a leitura das teclas pressionadas
@@ -194,13 +206,13 @@ public class Fase extends JPanel implements ActionListener{
 			try {
 			Inimigo p = it.next();
 			InimigoDao pDAO = new InimigoDao();
-			pDAO.inserir(p,i,"username");
+			pDAO.inserir(p,i,"username",faseAtual);
 			}
 			catch(Exception p){
 				break;}
 			}
 		JogadorDAO j = new JogadorDAO();		
-		j.inserir(player1, player2, "username");
+		j.inserir(faseAtual,player1, player2, "username");
 	}
 	
 	public static LinkedList<Inimigo> getListaInimigos() {

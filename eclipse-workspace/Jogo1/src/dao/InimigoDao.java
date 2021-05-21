@@ -10,7 +10,7 @@ import inimigos.*;
 
 public class InimigoDao{
 	
-	public void inserir(Inimigo i,int index,String username) {
+	public void inserir(Inimigo i,int index,String username,int numFase) {
 		
 		JSONObject detalhesInimigo = new JSONObject();
 		JSONObject patoDocumentado = new JSONObject(); 
@@ -27,24 +27,25 @@ public class InimigoDao{
 		}
         
         try {
-        	BufferedWriter writer = new BufferedWriter(new FileWriter(username+"inimigoDAO.json", true));
+        	BufferedWriter writer = new BufferedWriter(new FileWriter("saves/"+username+"inimigoDAO"+numFase+".json", true));
             writer.append(patoDocumentado.toString());
             writer.append(",\n");
             writer.close();
             System.out.println("Successfully wrote to the file.");
-          } catch (IOException e) {
+          } 
+        catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
    }
-	public void Construtora(String username) {
+	public void Construtora(int numFase,String username) {
 		LinkedList<Inimigo>listaInimigos=Fase.getListaInimigos();
 		try  
 		{  
-		File file=new File(username+"inimigoDAO.json");    //creates a new file instance  
-		FileReader fr=new FileReader(file);   //reads the file  
-		BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
-		String line;  
+			File file=new File(username+"inimigoDAO"+numFase+".json");    //creates a new file instance  
+			FileReader fr=new FileReader(file);   //reads the file  
+			BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
+			String line;  
 		
 		int i =0;
 		while((line=br.readLine())!=null)  

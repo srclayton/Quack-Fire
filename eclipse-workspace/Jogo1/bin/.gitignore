@@ -1,6 +1,9 @@
-/dao/
 /principal/
 /janela/
-/player/
 /fase/
+/saves/
+/dao/
+/controle/
 /inimigos/
+/username.json
+/usernameJogadorDAO.json
