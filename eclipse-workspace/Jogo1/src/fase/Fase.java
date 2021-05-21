@@ -111,7 +111,7 @@ public class Fase extends JPanel implements ActionListener{
 	public void paint(Graphics g) { 
 		this.requestFocus();
 		graficos = (Graphics2D) g;
- 		graficos.drawImage(fundo, 0, 0, null);
+		graficos.drawImage(fundo, 0, 0, null);
 		Iterator<Inimigo> it = getListaInimigos().iterator();
 		while(it.hasNext()) {
 			try{
@@ -134,7 +134,6 @@ public class Fase extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		player1.update();
 		player2.update();
-		
 		Iterator<Inimigo> it = getListaInimigos().iterator();
 		while(it.hasNext()) {
 			try {
@@ -145,7 +144,7 @@ public class Fase extends JPanel implements ActionListener{
 			}
 		}
 		testando++;
-		if (testando==500)
+		if (testando==1000)
 		{	//Menu.setFase(null);
 			timerFase.stop();
 			player1.deletImg();
@@ -161,6 +160,7 @@ public class Fase extends JPanel implements ActionListener{
 				catch(Exception in){
 					break;}
 				}
+			
 			this.removeAll();
 			validate();
 			repaint();
@@ -207,6 +207,5 @@ public class Fase extends JPanel implements ActionListener{
 		return ListaInimigos;
 	}
 }
-
 	
 	
