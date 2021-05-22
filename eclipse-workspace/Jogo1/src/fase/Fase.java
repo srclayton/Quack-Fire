@@ -40,13 +40,26 @@ public class Fase extends JPanel implements ActionListener{
 	protected int tempoTotal=0;
 	protected int tempoSegundosTotais=10;
 	protected int taxaDeAtualizacao;
-
+	protected boolean usarSave;
+	protected JLabel labelU1; 
+	protected JLabel labelU2; 
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
 	 *da fase em questão, 
 	 *===================================================================================*/
 	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int numeroFase, int taxaDeAtualizacao,boolean usarSave){
+
+		labelU1 = new JLabel();
+		labelU2 = new JLabel();
+
+		labelU1.setText("AAAAAAAAAAAAAAAA");
+		labelU2.setText("FDFDSFSDF");
+
+		labelU1.setBounds(10, 10, 180, 40);
+		labelU1.setBounds(550, 10, 180, 40);
+		add(labelU1);
+		add(labelU2);
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		this.taxaDeAtualizacao = taxaDeAtualizacao;
@@ -58,6 +71,7 @@ public class Fase extends JPanel implements ActionListener{
 		timerFase=  new Timer(taxaDeAtualizacao, this); // 
 		timerFase.start();
 		tempoTotal=0;
+		this.usarSave=usarSave;
 		if(usarSave){
 			construirSaveAntigo();
 		}
@@ -65,16 +79,19 @@ public class Fase extends JPanel implements ActionListener{
 			inicializaJogadores();
 		}
 		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno);
-		System.out.println("AAAAAAAAAAAAAAA");
+		
+		
 	}
 	public void construirSaveAntigo() {
 		InimigoDao iDAO = new InimigoDao();
-		iDAO.Construtora(faseAtual,"username");
+		iDAO.Construtora(faseAtual,Janela.getUsername1());
 		JogadorDAO jDAO = new JogadorDAO();
-		player1 = jDAO.Construtora(faseAtual,"username", 1);
+		player1 = jDAO.Construtora(faseAtual,Janela.getUsername1(), 1);
 		player1.load();
-		player2 = jDAO.Construtora(faseAtual,"username", 2);
+		player2 = jDAO.Construtora(faseAtual,Janela.getUsername1(), 2);
 		player2.load();
+		iDAO.excluirSave(faseAtual,Janela.getUsername1());
+		jDAO.excluirSave(faseAtual,Janela.getUsername1());
 	}
 	/*============================================================================
 	 * Metodo para spawnar os jogadores, invocando sua construtora e passando
@@ -82,7 +99,7 @@ public class Fase extends JPanel implements ActionListener{
 	 * ===========================================================================
 	 */
 	public void inicializaJogadores() {
-		player1 = new Jogador(1, "res\\mira.png", 100, 100);
+		player1 = new Jogador(1, "res\\mira1.png", 100, 100);
 		player1.load();
 		player2 = new Jogador(2, "res\\mira2.png", 100, 100);
 		player2.load();
@@ -126,6 +143,11 @@ public class Fase extends JPanel implements ActionListener{
 		}
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
+//		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
+//		labelU2.setText(Janela.getUsername2()+": "+player2.getPontuacao());
+
+		labelU1.setText("AAAAAAAAAAAAAAAA");
+		labelU2.setText("FDFDSFSDF");
 		g.dispose();
 	}
 	/*====================actionPerformed===========================
@@ -146,12 +168,15 @@ public class Fase extends JPanel implements ActionListener{
 			}
 		}
 		tempoTotal++;
-		if (tempoTotal>(10000-1800)/taxaDeAtualizacao)
+		if (tempoTotal>(10000-2500)/taxaDeAtualizacao)
 		{	
 			System.out.println("CCCCCCCCCC");
 			salvar();
 			encerra();
 		}
+
+		labelU1.setText("AAAAAAAAAAAAAAAA");
+		labelU2.setText("FDFDSFSDF");
 		repaint();
 	}
 	
@@ -206,13 +231,13 @@ public class Fase extends JPanel implements ActionListener{
 			try {
 			Inimigo p = it.next();
 			InimigoDao pDAO = new InimigoDao();
-			pDAO.inserir(p,i,"username",faseAtual);
+			pDAO.inserir(p,i,Janela.getUsername1(),faseAtual);
 			}
 			catch(Exception p){
 				break;}
 			}
 		JogadorDAO j = new JogadorDAO();		
-		j.inserir(faseAtual,player1, player2, "username");
+		j.inserir(faseAtual,player1, player2, Janela.getUsername1());
 	}
 	
 	public static LinkedList<Inimigo> getListaInimigos() {

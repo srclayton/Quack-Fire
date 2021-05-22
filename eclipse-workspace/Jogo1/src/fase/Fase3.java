@@ -10,7 +10,7 @@ import janela.Janela;
 
 public class Fase3 extends Fase{
 	public Fase3(boolean usarSave){
-		super(10000,1000,1800,500,1000,"res\\.png",1,5,usarSave);
+		super(10000,1000,1800,500,1000,"res\\.png",3,5,usarSave);
 		
 	}
 	@Override
@@ -23,9 +23,11 @@ public class Fase3 extends Fase{
 		timerPatoNormal.scheduleAtFixedRate(new SpawnerPatoNormal(),30,tempoPatoNormal);
 		timerPatoPequeno = new java.util.Timer();
 		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),30,tempoPatoPequeno);
-		BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,500);
-		bb.load();
-		ListaInimigos.add(bb);
+		if (!usarSave) {
+			BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,500);
+			bb.load();
+			ListaInimigos.add(bb);
+		}
 		timerExcluidor = new java.util.Timer();
 		timerExcluidor.scheduleAtFixedRate(new ExcluiInimigos(), 500, tempoExcluiInimigo);}
 		

@@ -42,7 +42,7 @@ public class InimigoDao{
 		LinkedList<Inimigo>listaInimigos=Fase.getListaInimigos();
 		try  
 		{  
-			File file=new File(username+"inimigoDAO"+numFase+".json");    //creates a new file instance  
+			File file=new File("saves/"+username+"inimigoDAO"+numFase+".json");    //creates a new file instance  
 			FileReader fr=new FileReader(file);   //reads the file  
 			BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
 			String line;  
@@ -93,7 +93,14 @@ public class InimigoDao{
 		}  
 	
 
-	public void removerTodos() {
-		
-	}
+	public void excluirSave(int numFase,String username) {
+		try  
+		{  
+			File file=new File("saves/"+username+"inimigoDAO"+numFase+".json"); 
+			file.delete();
+		}
+		catch( Exception e) {
+			
+		}
+}
 }

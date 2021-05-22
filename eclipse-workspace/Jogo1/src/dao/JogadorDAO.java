@@ -84,4 +84,17 @@ public class JogadorDAO {
 			}
 			return j;
 			}  
+
+
+		
+		public void excluirSave(int numFase,String username) {
+			try  
+			{  
+				File file=new File("saves/"+username+"JogadorDAO"+numFase+".json"); 
+				file.delete();
+			}
+			catch (Exception e) {
+				
+			}
+}
 }

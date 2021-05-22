@@ -34,6 +34,7 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private JTextField field2;
 	private static String username1;
 	private static String username2;
+	private int numFase;
 	
 	public Janela() {
 		
@@ -86,8 +87,7 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		tempoDeFase.stop();
 		
 	}
-	public void adicionaFase(int numFase,boolean usarSave) {
-		encerraMenu();
+	public void adicionaFase(boolean usarSave) {
 		if (numFase==1) {
 			FaseAtual = new Fase1(usarSave);
 		}
@@ -127,45 +127,45 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		if(e.getSource() == bt) {
 			bt.removeMouseListener(this);
 			encerraMenu();
+			numFase=1;
 			pedeUsername();
-			excluiPanel();
-			boolean usarSave = AchaSave.executar(1,username1);
-			adicionaFase(1,usarSave);
+			
 			
 		}
 		if(e.getSource() == bt2) {
 			bt2.removeMouseListener(this);
 			encerraMenu();
+			numFase=2;
 			pedeUsername();
-			excluiPanel();
-			boolean usarSave = AchaSave.executar(2,username1);
-			adicionaFase(2,usarSave);
 		}
 		if(e.getSource() == bt3) {
 			bt3.removeMouseListener(this);
 			encerraMenu();
+			numFase =3;
 			pedeUsername();
-			excluiPanel();
-			boolean usarSave = AchaSave.executar(3,username1);
-			adicionaFase(3,usarSave);
+			
 		}
 		if(e.getSource() == botaoInsereUsername) {
+			botaoInsereUsername.removeMouseListener(this);
 			username1 = field1.getText();
 			username2 = field2.getText();
+			excluiPanel();
+			boolean usarSave = AchaSave.executar(numFase,username1);
+			adicionaFase(usarSave);
 		}
 	}
 	public void pedeUsername() {
 		
-		botaoInsereUsername = new JButton();
-		
-        labelU1 = new JLabel();
-        labelU1.setText("Nome do Usuario");
-        field1 = new JTextField(50);
-        field2 = new JTextField(50);
         
         //INICIALIZA JANELA
         panelPedeUsuario = new JPanel();
         panelPedeUsuario.setLayout(null);
+        
+        labelU1 = new JLabel();
+        labelU1.setText("Seleção nome dos Usuários");
+        field1 = new JTextField(50);
+        field2 = new JTextField(50);
+        botaoInsereUsername.addMouseListener(this);
         
         //COLOCA OS OBJETOS NA JANELA
         panelPedeUsuario.add(botaoInsereUsername);
@@ -174,10 +174,12 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
         panelPedeUsuario.add(field2);
         
         //COLOCA OS OBJETOS EM UMA ORDEM ADEQUADA
-        labelU1.setBounds(200,650,200,50);
-        botaoInsereUsername.setBounds(200,200,250,250);
-        field1.setBounds(200,500,100,100);
-        field2.setBounds(200, 700, 100, 100);
+        labelU1.setBounds(375,100,250,50);
+        botaoInsereUsername.setBounds(380,280,150,150);
+        field1.setBounds(300,200,120,50);
+        field2.setBounds(500, 200, 120, 50);
+        add(panelPedeUsuario);
+        updateTela();
 	}
 	public void excluiPanel() {
 		remove(panelPedeUsuario);
