@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.json.*;
@@ -10,7 +11,7 @@ import inimigos.*;
 
 public class InimigoDao{
 	
-	public void inserir(Inimigo i,int index,String username,int numFase) {
+	public void inserirJSON(Inimigo i,int index,String username,int numFase) {
 		
 		JSONObject detalhesInimigo = new JSONObject();
 		JSONObject patoDocumentado = new JSONObject(); 
@@ -38,7 +39,7 @@ public class InimigoDao{
             e.printStackTrace();
           }
    }
-	public void Construtora(int numFase,String username) {
+	public void construtoraJSON(int numFase,String username) {
 		LinkedList<Inimigo>listaInimigos=Fase.getListaInimigos();
 		try  
 		{  
@@ -92,8 +93,84 @@ public class InimigoDao{
 		}  
 		}  
 	
+	public void inserirTXT(Inimigo i,int index,String username,int numFase) {
+		String detalhesInimigo;
+        detalhesInimigo = index+";"+i.getX()+";"+i.getY()+";"+i.getPontos()+";"+i.getID()+"\n";
+        try {
+        	BufferedWriter writer = new BufferedWriter(new FileWriter("saves/"+username+"inimigoDAO"+numFase+".txt", true));
+            writer.append(detalhesInimigo);
+            writer.close();
+            System.out.println("Successfully wrote to the file.");
+          } 
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
+	}
+	public void construtoraTXT(int numFase,String username) {
+		LinkedList<Inimigo>listaInimigos=Fase.getListaInimigos();
+		try  
+		{  
+			File file=new File("saves/"+username+"inimigoDAO"+numFase+".txt");    //creates a new file instance  
+			FileReader fr=new FileReader(file);   //reads the file  
+			BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
+			String line;  
+		
+			int i =0;
+			while((line=br.readLine())!=null)  
+			{  i++;
+				Inimigo inimigo;
+				try {
+					String[] listaAtributos =   line.split(";",100);
+					if (listaAtributos[4]=="1") {
+						inimigo = new PatoDourado(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+						inimigo.load();
+						listaInimigos.add(inimigo);
+					}
+					if (listaAtributos[4]=="2") {
+						inimigo = new PatoFedido(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+						inimigo.load();
+						listaInimigos.add(inimigo);
+					}
+					if (listaAtributos[4]=="3") {
+						inimigo = new PatoNormal(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+						inimigo.load();
+						listaInimigos.add(inimigo);
+					}
+					if (listaAtributos[4]=="4") {
+						inimigo = new PatoPequeno(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+						inimigo.load();
+						listaInimigos.add(inimigo);
+					}
+					if (listaAtributos[4]=="5") {
+						inimigo = new BallonBoy(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+						inimigo.load();
+						listaInimigos.add(inimigo);
+					}
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirSaveTXT(int numFase,String username) {
+		try  
+		{  
+			File file=new File("saves/"+username+"inimigoDAO"+numFase+".txt"); 
+			file.delete();
+		}
+		catch( Exception e) {
+			
+		}
+}
+		
 
-	public void excluirSave(int numFase,String username) {
+	public void excluirSaveJSON(int numFase,String username) {
 		try  
 		{  
 			File file=new File("saves/"+username+"inimigoDAO"+numFase+".json"); 

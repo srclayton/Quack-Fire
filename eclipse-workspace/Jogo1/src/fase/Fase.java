@@ -1,5 +1,7 @@
 package fase;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,9 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,11 +25,10 @@ import inimigos.*;
 import janela.Janela;
 import player.Jogador;
 
-public class Fase extends JPanel implements ActionListener{
+public class Fase extends JPanel implements ActionListener, MouseListener{
 	/**
 	 * 
 	 */
-	protected static final long serialVersionUID = 1L;
 	protected Image fundo; // background da fase
 	public int faseAtual;
 	protected Jogador player1, player2;
@@ -43,23 +47,25 @@ public class Fase extends JPanel implements ActionListener{
 	protected boolean usarSave;
 	protected JLabel labelU1; 
 	protected JLabel labelU2; 
+	protected String formato;
+	protected JButton btJson= new JButton("SALVAR JSON");
+	protected JButton btTxt=new JButton("SALVAR TEXT");
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
 	 *da fase em questão, 
 	 *===================================================================================*/
-	public Fase(int tempoPatoDourado,int tempoPatoFedido,int tempoPatoNormal,int tempoPatoPequeno, int tempoBallonBoy,String imgURL,int numeroFase, int taxaDeAtualizacao,boolean usarSave){
-
-		labelU1 = new JLabel();
-		labelU2 = new JLabel();
-
-		labelU1.setText("AAAAAAAAAAAAAAAA");
-		labelU2.setText("FDFDSFSDF");
-
-		labelU1.setBounds(10, 10, 180, 40);
-		labelU1.setBounds(550, 10, 180, 40);
-		add(labelU1);
-		add(labelU2);
+	public Fase(int tempoPatoDourado,
+			int tempoPatoFedido,
+			int tempoPatoNormal,
+			int tempoPatoPequeno, 
+			int tempoBallonBoy,
+			String imgURL,
+			int numeroFase, 
+			int taxaDeAtualizacao,
+			boolean usarSave,
+			String formato){
+		//setLayout(null);
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		this.taxaDeAtualizacao = taxaDeAtualizacao;
@@ -72,26 +78,51 @@ public class Fase extends JPanel implements ActionListener{
 		timerFase.start();
 		tempoTotal=0;
 		this.usarSave=usarSave;
+		this.formato = formato;
 		if(usarSave){
-			construirSaveAntigo();
+			construirSaveAntigo(formato);
 		}
 		else {
 			inicializaJogadores();
 		}
 		inicializaInimigos(tempoPatoDourado, tempoPatoFedido, tempoPatoNormal,tempoPatoPequeno);
 		
+		labelU1 = new JLabel();
+		labelU2 = new JLabel();
+
+		add(labelU1);
+		add(labelU2);
+		labelU1.setFont(new Font("Verdana", Font.PLAIN, 27));
+		labelU2.setFont(new Font("Verdana", Font.PLAIN, 27));
+		labelU1.setForeground(Color.RED);
+		labelU2.setForeground(Color.BLUE);
+//		btTxt.setBounds(0,0, 80, 80);
+		btTxt.setBounds(Janela.getLarguraJanela()-200, Janela.getAlturaJanela()-100,80,80);
+		btJson.setBounds(Janela.getLarguraJanela()-100, Janela.getAlturaJanela()-100,80,80);
+		add(btTxt);
+		add(btJson);
+		
+		
 		
 	}
-	public void construirSaveAntigo() {
+	public void construirSaveAntigo(String formato) {
 		InimigoDao iDAO = new InimigoDao();
-		iDAO.Construtora(faseAtual,Janela.getUsername1());
 		JogadorDAO jDAO = new JogadorDAO();
-		player1 = jDAO.Construtora(faseAtual,Janela.getUsername1(), 1);
-		player1.load();
-		player2 = jDAO.Construtora(faseAtual,Janela.getUsername1(), 2);
-		player2.load();
-		iDAO.excluirSave(faseAtual,Janela.getUsername1());
-		jDAO.excluirSave(faseAtual,Janela.getUsername1());
+		if(formato=="JSON") {
+			iDAO.construtoraJSON(faseAtual,Janela.getUsername1());
+			player1 = jDAO.construtoraJSON(faseAtual,Janela.getUsername1(),1);
+			player1.load();
+			player2 = jDAO.construtoraJSON(faseAtual,Janela.getUsername1(),2);
+			player2.load();
+			iDAO.excluirSaveJSON(faseAtual,Janela.getUsername1());}
+		else if(formato=="TXT") {
+			iDAO.construtoraTXT(faseAtual,Janela.getUsername1());
+			player1 = jDAO.construtoraTXT(faseAtual,Janela.getUsername1(), 1);
+			player1.load();
+			player2 = jDAO.construtoraTXT(faseAtual,Janela.getUsername1(), 2);
+			player2.load();
+			iDAO.excluirSaveTXT(faseAtual,Janela.getUsername1());
+		}
 	}
 	/*============================================================================
 	 * Metodo para spawnar os jogadores, invocando sua construtora e passando
@@ -141,13 +172,20 @@ public class Fase extends JPanel implements ActionListener{
 			}
 				
 		}
+		//btTxt.paint(g);
+		btJson.paint(g);
+		btTxt.paint(g);
+		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
+		labelU2.setText("                                                                                "+Janela.getUsername2()+": "+player2.getPontuacao());
+		
+		labelU1.print(g);
+		labelU2.print(g);
+		
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
 //		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
 //		labelU2.setText(Janela.getUsername2()+": "+player2.getPontuacao());
 
-		labelU1.setText("AAAAAAAAAAAAAAAA");
-		labelU2.setText("FDFDSFSDF");
 		g.dispose();
 	}
 	/*====================actionPerformed===========================
@@ -170,13 +208,9 @@ public class Fase extends JPanel implements ActionListener{
 		tempoTotal++;
 		if (tempoTotal>(10000-2500)/taxaDeAtualizacao)
 		{	
-			System.out.println("CCCCCCCCCC");
-			salvar();
 			encerra();
 		}
 
-		labelU1.setText("AAAAAAAAAAAAAAAA");
-		labelU2.setText("FDFDSFSDF");
 		repaint();
 	}
 	
@@ -203,7 +237,6 @@ public class Fase extends JPanel implements ActionListener{
 		this.removeAll();
 		validate();
 		repaint();
-		//salvar();
 	}
 	/*================class TecladoAdapter=======================
 	 * Esta classe lida com a leitura das teclas pressionadas
@@ -222,26 +255,67 @@ public class Fase extends JPanel implements ActionListener{
 			player2.KeyRelease(e);
 		}
 	}
-	public void salvar() {
+	public void salvar(String formato) {
 		Iterator<Inimigo> it = getListaInimigos().iterator();
+		JogadorDAO j = new JogadorDAO();	
+		InimigoDao pDAO = new InimigoDao();
 		int i=0;
+		if (formato=="JSON") {
 		while(it.hasNext()) {
-			
 			i++;
 			try {
-			Inimigo p = it.next();
-			InimigoDao pDAO = new InimigoDao();
-			pDAO.inserir(p,i,Janela.getUsername1(),faseAtual);
+				Inimigo p = it.next();
+				pDAO.inserirJSON(p,i,Janela.getUsername1(),faseAtual);
 			}
 			catch(Exception p){
 				break;}
+			}	
+		j.inserirJSON(faseAtual,player1, player2, Janela.getUsername1());
+		}
+		else if (formato=="TXT")
+		{
+			while(it.hasNext()) {
+				i++;
+				try {
+					Inimigo p = it.next();
+					pDAO.inserirTXT(p,i,Janela.getUsername1(),faseAtual);
+				}
+				catch(Exception p){
+					break;}
+				}	
+			j.inserirTXT(faseAtual,player1, player2, Janela.getUsername1());
 			}
-		JogadorDAO j = new JogadorDAO();		
-		j.inserir(faseAtual,player1, player2, Janela.getUsername1());
-	}
+		}
+		
+	
 	
 	public static LinkedList<Inimigo> getListaInimigos() {
 		return ListaInimigos;
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	

@@ -1,6 +1,6 @@
 package principal;
 import janela.Janela;
-import controle.AchaSave;
+import controle.AchaSaveJSON;
 import dao.InimigoDao;
 import inimigos.PatoDourado;
 

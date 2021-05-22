@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
+import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import controle.AchaSave;
+import controle.*;
 import fase.*;
 
 public class Janela extends JFrame implements ActionListener,MouseListener{
@@ -28,20 +28,67 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private JButton bt2 = new JButton("Fase 2");
 	private JButton bt3 = new JButton("Fase 3");
 	private JButton botaoInsereUsername = new JButton("InsereUsername");
+	private JButton btTxt;
+	private JButton btJson;
 	private JPanel panelPedeUsuario;
+	private JPanel pedeFormato;
 	private JLabel labelU1;
 	private JTextField field1;
 	private JTextField field2;
 	private static String username1;
 	private static String username2;
 	private int numFase;
+	private String formato;
+	private JMenuItem cutAction;
 	
 	public Janela() {
 		
 		tempoDeFase = new Timer(10000,this);
 		tempoDeFase.start();
 		criaMenu();
+		// Cria uma barra de menu para o JFrame
+        JMenuBar menuBar = new JMenuBar();
+
+        // Adiciona a barra de menu ao  frame
+        setJMenuBar(menuBar);
+
+        // Define e adiciona dois menus drop down na barra de menus
+        JMenu fileMenu = new JMenu("File");
+        JMenu editMenu = new JMenu("Edit");
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+
+        // Cria e adiciona um item simples para o menu
+        JMenuItem newAction = new JMenuItem("New");
+        JMenuItem openAction = new JMenuItem("Open");
+        JMenuItem exitAction = new JMenuItem("Exit");
+        cutAction = new JMenuItem("Cut");
+        cutAction.addMouseListener(this);
+        JMenuItem copyAction = new JMenuItem("Copy");
+        JMenuItem pasteAction = new JMenuItem("Paste");
+
+        // Cria e aiciona um CheckButton como um item de menu
+        JCheckBoxMenuItem checkAction = new JCheckBoxMenuItem("Check Action");
+        // Cria e aiciona um RadioButton como um item de menu
+        JRadioButtonMenuItem radioAction1 = new JRadioButtonMenuItem(
+                "Radio Button1");
+        JRadioButtonMenuItem radioAction2 = new JRadioButtonMenuItem(
+                "Radio Button2");
+        // Cria um ButtonGroup e adiciona os dois radio Button
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(radioAction1);
+        bg.add(radioAction2);
+        fileMenu.add(newAction);
+        fileMenu.add(openAction);
+        fileMenu.add(checkAction);
+        fileMenu.addSeparator();
+        fileMenu.add(exitAction);
+        editMenu.add(cutAction);
+        editMenu.add(copyAction);
+        editMenu.add(pasteAction);
+		
 		updateTela();
+		
 		
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -87,15 +134,19 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		tempoDeFase.stop();
 		
 	}
-	public void adicionaFase(boolean usarSave) {
+	public void adicionaFase() {
+		boolean usarSave = false;
+		if (formato!=null) {
+			usarSave = true;
+		}
 		if (numFase==1) {
-			FaseAtual = new Fase1(usarSave);
+			FaseAtual = new Fase1(usarSave, formato);
 		}
 		else if (numFase==2) {
-			FaseAtual = new Fase2(usarSave);
+			FaseAtual = new Fase2(usarSave, formato);
 		}
 		else if (numFase==3) {
-			FaseAtual = new Fase3(usarSave);
+			FaseAtual = new Fase3(usarSave, formato);
 		}
 		add(FaseAtual);
 		updateTela();
@@ -149,11 +200,50 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 			botaoInsereUsername.removeMouseListener(this);
 			username1 = field1.getText();
 			username2 = field2.getText();
-			excluiPanel();
-			boolean usarSave = AchaSave.executar(numFase,username1);
-			adicionaFase(usarSave);
+			excluiPanel(panelPedeUsuario);
+			formato = null;
+			boolean usarSaveJSON = AchaSaveJSON.executar(numFase,username1);
+			boolean usarSaveTXT = AchaSaveTXT.executar(numFase,username1);
+			if(usarSaveJSON||usarSaveTXT) {
+				pedeFormato(usarSaveJSON,usarSaveTXT);
+			}
+			else {
+				adicionaFase();
+				}
 		}
+		if(e.getSource() == btTxt) {
+			formato = "TXT";
+			excluiPanel(pedeFormato);
+			adicionaFase();
+		}else if(e.getSource() == btJson) {
+			formato = "JSON";
+			excluiPanel(pedeFormato);
+			adicionaFase();
+		}else if(e.getSource() == cutAction) {
+			System.out.println("AAAAAABBBBB");
+		}
+		
 	}
+	
+	public void pedeFormato(boolean usarSaveJSON,boolean usarSaveTXT) {
+		pedeFormato = new JPanel();
+		pedeFormato.setLayout(null);
+		if (usarSaveTXT) {
+		btTxt = new JButton("txt");
+		btTxt.setBounds(100,300,200,200);
+		btTxt.addMouseListener(this);
+		pedeFormato.add(btTxt);
+		}
+		if (usarSaveJSON) {
+		btJson = new JButton("json");
+		btJson.setBounds(400,300,200,200);
+		btJson.addMouseListener(this);
+		pedeFormato.add(btJson);
+		}
+		add(pedeFormato);
+		updateTela();
+	}
+	
 	public void pedeUsername() {
 		
         
@@ -181,12 +271,12 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
         add(panelPedeUsuario);
         updateTela();
 	}
-	public void excluiPanel() {
-		remove(panelPedeUsuario);
-		panelPedeUsuario.removeAll();
-		panelPedeUsuario.validate();
-		panelPedeUsuario.repaint();
-		panelPedeUsuario = null;
+	public void excluiPanel(JPanel panel) {
+		remove(panel);
+		panel.removeAll();
+		panel.validate();
+		panel.repaint();
+		panel = null;
 		updateTela();
 	}
 	@Override

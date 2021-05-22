@@ -9,8 +9,8 @@ import inimigos.BallonBoy;
 import janela.Janela;
 
 public class Fase3 extends Fase{
-	public Fase3(boolean usarSave){
-		super(10000,1000,1800,500,1000,"res\\.png",3,5,usarSave);
+	public Fase3(boolean usarSave, String formato){
+		super(10000,1000,1800,500,1000,"res\\.png",3,5,usarSave, formato);
 		
 	}
 	@Override
