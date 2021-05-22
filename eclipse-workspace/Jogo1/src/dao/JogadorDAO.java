@@ -62,7 +62,7 @@ public class JogadorDAO {
 			detalhesJogador1 = "1;"+j1.getX()+";"+j1.getY()+";"+j1.getPontuacao()+"\n";
 			detalhesJogador2 = "2;"+j2.getX()+";"+j2.getY()+";"+j2.getPontuacao()+"\n";
 	        try {
-	        	BufferedWriter writer = new BufferedWriter(new FileWriter("saves/"+username+"inimigoDAO"+numFase+".txt", true));
+	        	BufferedWriter writer = new BufferedWriter(new FileWriter("saves/"+username+"JogadorDAO"+numFase+".txt", true));
 	            writer.append(detalhesJogador1);
 	            writer.append(detalhesJogador2);
 	            writer.close();

@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import controle.*;
 import fase.*;
@@ -39,54 +41,26 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private static String username2;
 	private int numFase;
 	private String formato;
-	private JMenuItem cutAction;
+    JMenuItem salvarTxt;
+    JMenuItem salvarJson;
 	
 	public Janela() {
 		
 		tempoDeFase = new Timer(10000,this);
 		tempoDeFase.start();
 		criaMenu();
-		// Cria uma barra de menu para o JFrame
         JMenuBar menuBar = new JMenuBar();
-
-        // Adiciona a barra de menu ao  frame
         setJMenuBar(menuBar);
-
-        // Define e adiciona dois menus drop down na barra de menus
-        JMenu fileMenu = new JMenu("File");
-        JMenu editMenu = new JMenu("Edit");
-        menuBar.add(fileMenu);
-        menuBar.add(editMenu);
-
-        // Cria e adiciona um item simples para o menu
-        JMenuItem newAction = new JMenuItem("New");
-        JMenuItem openAction = new JMenuItem("Open");
-        JMenuItem exitAction = new JMenuItem("Exit");
-        cutAction = new JMenuItem("Cut");
-        cutAction.addMouseListener(this);
-        JMenuItem copyAction = new JMenuItem("Copy");
-        JMenuItem pasteAction = new JMenuItem("Paste");
-
-        // Cria e aiciona um CheckButton como um item de menu
-        JCheckBoxMenuItem checkAction = new JCheckBoxMenuItem("Check Action");
-        // Cria e aiciona um RadioButton como um item de menu
-        JRadioButtonMenuItem radioAction1 = new JRadioButtonMenuItem(
-                "Radio Button1");
-        JRadioButtonMenuItem radioAction2 = new JRadioButtonMenuItem(
-                "Radio Button2");
-        // Cria um ButtonGroup e adiciona os dois radio Button
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(radioAction1);
-        bg.add(radioAction2);
-        fileMenu.add(newAction);
-        fileMenu.add(openAction);
-        fileMenu.add(checkAction);
-        fileMenu.addSeparator();
-        fileMenu.add(exitAction);
-        editMenu.add(cutAction);
-        editMenu.add(copyAction);
-        editMenu.add(pasteAction);
-		
+        JMenu salvar = new JMenu("Salvar");
+        menuBar.add(salvar);
+        salvarTxt = new JMenuItem("Salvar em .txt");
+        salvarJson = new JMenuItem("Salvar em .jason");
+        salvarTxt.addMouseListener(this);
+        salvarJson.addMouseListener(this);
+        salvar.add(salvarTxt);
+        salvar.addSeparator();
+        salvar.add(salvarJson);
+        
 		updateTela();
 		
 		
@@ -215,13 +189,13 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 			formato = "TXT";
 			excluiPanel(pedeFormato);
 			adicionaFase();
-		}else if(e.getSource() == btJson) {
+		}
+		if(e.getSource() == btJson) {
 			formato = "JSON";
 			excluiPanel(pedeFormato);
 			adicionaFase();
-		}else if(e.getSource() == cutAction) {
-			System.out.println("AAAAAABBBBB");
 		}
+		
 		
 	}
 	
@@ -230,13 +204,13 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		pedeFormato.setLayout(null);
 		if (usarSaveTXT) {
 		btTxt = new JButton("txt");
-		btTxt.setBounds(100,300,200,200);
+		btTxt.setBounds(100,300,80,80);
 		btTxt.addMouseListener(this);
 		pedeFormato.add(btTxt);
 		}
 		if (usarSaveJSON) {
 		btJson = new JButton("json");
-		btJson.setBounds(400,300,200,200);
+		btJson.setBounds(400,300,80,80);
 		btJson.addMouseListener(this);
 		pedeFormato.add(btJson);
 		}
@@ -282,6 +256,15 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getSource() == salvarTxt) {
+			System.out.println("Salvar em TXT");
+			Fase.salvar("TXT");
+		}
+		else
+			if(e.getSource() == salvarJson) {
+				System.out.println("Salvar em Json");
+				Fase.salvar("JSON");
+			}
 
 	}
 	@Override
@@ -305,4 +288,5 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	public static String getUsername2() {
 		return username2;
 	}
+	
 }

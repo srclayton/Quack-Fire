@@ -30,8 +30,9 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 	 * 
 	 */
 	protected Image fundo; // background da fase
-	public int faseAtual;
-	protected Jogador player1, player2;
+	public static int faseAtual;
+	protected static Jogador player1;
+	protected static Jogador player2;
 	protected static LinkedList<Inimigo> ListaInimigos = new LinkedList<Inimigo>();
 	protected long tempoExcluiInimigo=1000;
 	protected Timer timerFase;// timer
@@ -48,8 +49,8 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 	protected JLabel labelU1; 
 	protected JLabel labelU2; 
 	protected String formato;
-	protected JButton btJson= new JButton("SALVAR JSON");
-	protected JButton btTxt=new JButton("SALVAR TEXT");
+//	protected JButton btJson= new JButton("SALVAR JSON");
+//	protected JButton btTxt=new JButton("SALVAR TEXT");
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
@@ -97,11 +98,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		labelU1.setForeground(Color.RED);
 		labelU2.setForeground(Color.BLUE);
 //		btTxt.setBounds(0,0, 80, 80);
-		btTxt.setBounds(Janela.getLarguraJanela()-200, Janela.getAlturaJanela()-100,80,80);
-		btJson.setBounds(Janela.getLarguraJanela()-100, Janela.getAlturaJanela()-100,80,80);
-		add(btTxt);
-		add(btJson);
-		
+//		btTxt.setBounds(Janela.getLarguraJanela()-200, Janela.getAlturaJanela()-100,80,80);
+//		btJson.setBounds(Janela.getLarguraJanela()-100, Janela.getAlturaJanela()-100,80,80);
+//		add(btTxt);
+//		add(btJson);
+//		
 		
 		
 	}
@@ -173,8 +174,8 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 				
 		}
 		//btTxt.paint(g);
-		btJson.paint(g);
-		btTxt.paint(g);
+//		btJson.paint(g);
+//		btTxt.paint(g);
 		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
 		labelU2.setText("                                                                                "+Janela.getUsername2()+": "+player2.getPontuacao());
 		
@@ -255,7 +256,7 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			player2.KeyRelease(e);
 		}
 	}
-	public void salvar(String formato) {
+	public static void salvar(String formato) {
 		Iterator<Inimigo> it = getListaInimigos().iterator();
 		JogadorDAO j = new JogadorDAO();	
 		InimigoDao pDAO = new InimigoDao();
