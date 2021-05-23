@@ -11,6 +11,14 @@ public class DetalhesJogadorRanking implements Comparable<DetalhesJogadorRanking
 	public String toString() {
 		return this.username;
 	}
+//	*******************************************
+//	comparamos entre ambos os usuarios quem 
+//	possui maior pontuação, caso o player2
+//	possua uma pontuação maior
+//	retornamos 1; caso o player2 possui pontuação
+//	inferior ao player1, retornamos -1
+//	e caso possuam a mesma pontuação retornamos 0
+//	*************************************************
 	@Override
 	public int compareTo(DetalhesJogadorRanking detJ) {
 		if (detJ.getPontuacao() > this.getPontuacao() ){

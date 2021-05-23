@@ -25,7 +25,7 @@ public class Fase2 extends Fase{
 		timerPatoPequeno = new java.util.Timer();
 		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),30,tempoPatoPequeno);
 		if (!usarSave) {
-			BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,50*Fase.getConstNegativa());
+			BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,-50*Fase.getConstNegativa());
 			bb.load();
 			ListaInimigos.add(bb);
 		}

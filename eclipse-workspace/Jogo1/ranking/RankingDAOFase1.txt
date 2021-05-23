@@ -1,3 +1,4 @@
+Clayton;6900
 Royka;2500
 Royka;1500
 Pyettra;1350
@@ -26,3 +27,4 @@ dfsdf;0
 ;0
 asdsad;0
 saddaasd;0
+inimigo;0

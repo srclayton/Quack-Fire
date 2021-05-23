@@ -13,7 +13,13 @@ import inimigos.Inimigo;
 import player.Jogador;
 
 public class JogadorDAO {
-		
+//		*****************************************************
+//		Assim como em inserir Inimigos, a logica para poder 
+//		salvar o um jogador é a mesma, agrupamos suas informações
+//		como suas coordenadas, pontuação e a fase em questão.
+//		fazemos os mesmos processos para ambos os jogadores.
+//		*****************************************************
+
 		public void inserirJSON(int numFase,Jogador j1,Jogador j2,String username) {
 			
 			JSONObject detalhesJogador1 = new JSONObject();
@@ -26,7 +32,6 @@ public class JogadorDAO {
 				
 	        	jogador1Documentado.put("Jogador1", detalhesJogador1);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        JSONObject detalhesJogador2 = new JSONObject();
@@ -55,7 +60,12 @@ public class JogadorDAO {
 	            e.printStackTrace();
 	          }
 	   }
-		
+//		*****************************************************
+//		Assim como em inserir Inimigos, a logica para poder 
+//		salvar o um jogador é a mesma, agrupamos suas informações
+//		como suas coordenadas, pontuação e a fase em questão.
+//		fazemos os mesmos processos para ambos os jogadores.
+//		*****************************************************
 		public void inserirTXT(int numFase,Jogador j1,Jogador j2,String username) {
 			String detalhesJogador1;
 			String detalhesJogador2; 
@@ -73,7 +83,11 @@ public class JogadorDAO {
 	            e.printStackTrace();
 	          }
 		}
-		
+//		*******************************************************
+//		Fazemos a leitura de um possivel save, e a partir do mesmo
+//		criamos o jogador, com sua coordenada armazenada e sua 
+//		pontuação
+//		*******************************************************
 		public Jogador construtoraJSON(int numFase,String username,int index) {
 			Jogador j = null;
 			try  
@@ -107,7 +121,11 @@ public class JogadorDAO {
 			}
 			return j;
 			}  
-		
+//		*******************************************************
+//		Fazemos a leitura de um possivel save, e a partir do mesmo
+//		criamos o jogador, com sua coordenada armazenada e sua 
+//		pontuação
+//		*******************************************************
 		public Jogador construtoraTXT(int numFase,String username,int index) {
 
 			Jogador j = null;

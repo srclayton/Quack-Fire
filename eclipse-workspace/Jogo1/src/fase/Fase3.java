@@ -24,10 +24,10 @@ public class Fase3 extends Fase{
 		timerPatoPequeno = new java.util.Timer();
 		timerPatoPequeno.scheduleAtFixedRate(new SpawnerPatoPequeno(),30,tempoPatoPequeno);
 		if (!usarSave) {
-			BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,50*Fase.getConstNegativa());
+			BallonBoy bb = new BallonBoy(Janela.getLarguraJanela()+150,Janela.getAlturaJanela()-250,-50*Fase.getConstNegativa());
 			bb.load();
 			ListaInimigos.add(bb);
-			BallonBoy bbb = new BallonBoy(Janela.getLarguraJanela()+350,Janela.getAlturaJanela()-250,50*Fase.getConstNegativa());
+			BallonBoy bbb = new BallonBoy(Janela.getLarguraJanela()+350,Janela.getAlturaJanela()-250,-50*Fase.getConstNegativa());
 			bbb.load();
 			ListaInimigos.add(bbb);
 		}

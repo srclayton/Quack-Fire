@@ -6,7 +6,11 @@ import java.util.TimerTask;
 import fase.Fase;
 import inimigos.*;
 import janela.Janela;
-
+//*******************************************************************
+//Recebemos nossa lista de inimigos, e criamos um novo inimigo
+//passando para sua construtora, sua coordenada, x e y, e sua
+//pontuação
+//*******************************************************************
 public class SpawnerPatoDourado extends TimerTask {
 	@Override
 	public void run() {

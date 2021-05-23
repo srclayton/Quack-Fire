@@ -51,8 +51,6 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 	protected static int constanteNegativaPontuacao;
 	protected static int constantePositivaPontuacao;
 	protected static int tempoDecorrido;
-//	protected JButton btJson= new JButton("SALVAR JSON");
-//	protected JButton btTxt=new JButton("SALVAR TEXT");
 	/*===================================================================================
 	 *Construtora da Fase, que atraves dela é feita a implementação da fase, 
 	 *recebemos O tempo de spawn de cada inimigo, o src de background da fase e o numero 
@@ -110,6 +108,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		labelU2.setForeground(Color.BLUE);
 		
 	}
+//	************************************************
+//	atravz deste metodo criamos a fase atual
+//	com os dados do inimigo e os dados dos players
+//	contidos no possivel save, .txt ou .json.
+//	***********************************************
 	public void construirSaveAntigo(String formato) {
 		InimigoDao iDAO = new InimigoDao();
 		JogadorDAO jDAO = new JogadorDAO();
@@ -210,7 +213,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		}
 		repaint();
 	}
-	
+//	******************************************************
+//	com este metodo encerramos nossa fase atual,
+//	deletamos todos o inimigos assim como os player e
+//	automaticamente salvamos o ranking dos players.
+//	*******************************************************
 	public void encerra() {
 		timerFase.stop();
 		insereRanking();
@@ -237,6 +244,10 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		validate();
 		repaint();
 	}
+//	**************************************************
+//	Chamada dos metodos responsavel pelo salvamento
+//	dos rankings
+//	**************************************************
 	public void insereRanking() {
 		//inserir em txt
 		RankingDAO.insereRankingDAOTXT(player1.getPontuacao(),player2.getPontuacao(),faseAtual,Janela.getUsername1(),Janela.getUsername2());
@@ -262,6 +273,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			player2.KeyRelease(e);
 		}
 	}
+//	****************************************************
+//	Chamamos nossos metodos de salvamento, de acordo
+//	com a escolha do usuario, podendo ser salvo em
+//	.txt ou em .json
+//	****************************************************
 	public static void salvar(String formato) {
 		Iterator<Inimigo> it = getListaInimigos().iterator();
 		JogadorDAO j = new JogadorDAO();	

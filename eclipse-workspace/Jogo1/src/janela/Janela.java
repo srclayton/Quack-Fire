@@ -53,7 +53,11 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private static String username2;
 	private int numFase;
 	private String formato;
-	
+//	********************************************************
+//	criação da janelo do nosso jogo, é o primeiro contato 
+//	que o usuario tem com o jogo, onde ja se inicializa
+//	o menu de opções.
+//	********************************************************
 	public Janela() {
 		
 		tempoDeFase = new Timer(65000,this);
@@ -88,6 +92,11 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	public static int getLarguraJanela() {
 		return larguraJanela;
 	}
+//	*******************************************
+//	metodo para finalizar a fase e remove-la
+//	da tela, e em seguida adicionar o menu
+//	a mesma.
+//	*******************************************
 	public void encerraFase() {
 		remove(FaseAtual);
 		FaseAtual.removeAll();
@@ -98,11 +107,16 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		
 		
 	}
+	
+//	*****************************************************
+//	metodo que cria o Painel de menu, onde o usuario tem 
+//	as escolhas de fase e exibir o ranking. 
+//	*****************************************************
 	public void criaMenu() {
 		menu =  new JPanel();
 		menu.setLayout(null);
 		btRanking = new JButton("Ver Ranking");
-		jb.setBounds(Janela.getLarguraJanela()/2 - jb.getText().length()-50,100,100,100);
+		jb.setBounds(Janela.getLarguraJanela()/2 - jb.getText().length()-50,0,100,100);
 		bt.setBounds(100,300,200,200);
 		bt.addMouseListener(this);
 		bt2.setBounds(400,300,200,200);
@@ -111,6 +125,11 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		bt3.addMouseListener(this);
 		btRanking.setBounds(100,510,800,80);
 		btRanking.addMouseListener(this);
+		JLabel tabelaPontos = new JLabel();
+		tabelaPontos.setBounds(240 ,100,700,200);
+		ImageIcon icon = new ImageIcon("res\\tabelaDePontos.png");
+		tabelaPontos.setIcon(icon);
+		menu.add(tabelaPontos);
 		menu.add(jb);
 		menu.add(bt);
 		menu.add(bt2);
@@ -122,6 +141,11 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		tempoDeFase.stop();
 		
 	}
+//	*******************************************************
+//	de acordo com a escolha do usuario iniciamos uma nova
+//	fase para o mesmo jogar, sempre verificando
+//	se o mesmo possui algum formato de save
+//	*******************************************************
 	public void adicionaFase() {
 		boolean usarSave = false;
 		if (formato!=null) {
@@ -142,6 +166,12 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		
 		
 	}
+//	*****************************************
+//	antes de iniciarmos uma fase, precisamos
+//	primeiro remover o menu principal,
+//	é atravs deste metodo que realizamos
+//	a operação.
+//	****************************************
 	public void encerraMenu() {
 		remove(menu);
 		menu.removeAll();
@@ -161,7 +191,13 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+//		***************************************************
+//		o mouse listener é de extrema importancia
+//		pois é ele quem administra a ação de cada botão.
+//		Gerenciando qual fase o usuario escolheu jogar,
+//		se o usuario resolveu verificar o ranking ou até
+//		mesmo salvar seu progresso em .txt e/ou .json.
+//		***************************************************
 		
 		if(e.getSource() == bt) {
 			bt.removeMouseListener(this);
@@ -184,6 +220,16 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 			pedeUsername();
 			
 		}
+//		************************************************
+//		antes de iniciar a fase para o jogador
+//		nós cadastramos os seus usernames.
+//		posterior ao cadastramentos verificamos atraves
+//		dos metodos AchaSave, se existe algum save 
+//		do usuario, caso encontremos, solicitamos em uma
+//		nova tela que o usuario escolha o formato desejado
+//		para fazer o load. Caso contrario apenas iniciamos
+//		uma nova fase
+//		*************************************************
 		if(e.getSource() == botaoInsereUsername) {
 			botaoInsereUsername.removeMouseListener(this);
 			username1 = field1.getText();
@@ -199,30 +245,53 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 				adicionaFase();
 				}
 		}
+//		*******************************
+//		Adicionamos a pagina de ranking
+//		para visualização
+//		******************************
 		if(e.getSource() == btRanking)
 		{
 			excluiPanel(menu);
 			paginaRanking();
 		}
-		
+//		******************************
+//		botões de escolha de formato
+//		de save, para o usuario
+//		escolher qual ira dar load
+//		******************************
 		if(e.getSource() == btTxt) {
 			formato = "TXT";
 			excluiPanel(pedeFormato);
 			adicionaFase();
 		}
+//		******************************
+//		botões de escolha de formato
+//		de save, para o usuario
+//		escolher qual ira dar load
+//		******************************
 		if(e.getSource() == btJson) {
 			formato = "JSON";
 			excluiPanel(pedeFormato);
 			adicionaFase();
 		}
-		
+//		******************************
+//		botão responsavel por apresentar
+//		o menu novamente para o usuario
+//		******************************
 		if(e.getSource() == btVoltaMenu) {
 			excluiPanel(panelRanking);
 			criaMenu();
 		}
 		
 	}
-	
+//	*********************************************************
+//	Metodo responsavel por mostrar o ranking do jogo ao usuario
+//	atraves das 3 diferentes listas, uma para cada fase.
+//	mostramos os melhores 5 player, contendo seu username
+//	e sua maior pontuação, do maior para o menor.
+//	e caso o ranking esteja vazio, apenas o informamos que
+//	o mesmo não a nenhum player.
+//	*********************************************************
 	public void paginaRanking() {
 		panelRanking = new JPanel();
 		panelRanking.setLayout(null);
@@ -276,7 +345,11 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		
 		updateTela();
 	}
-	
+//	************************************************************
+//	pedeFormato é um PANEL responsavel por solicitar qual save
+//	o usuario gostaria de usar, se o mesmo possuir algum save
+//	com as estensões .txt e/ou .jason
+//	************************************************************
 	public void pedeFormato(boolean usarSaveJSON,boolean usarSaveTXT) {
 		pedeFormato = new JPanel();
 		pedeFormato.setLayout(null);
@@ -295,7 +368,10 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		add(pedeFormato);
 		updateTela();
 	}
-	
+//	***************************************************
+//	PANEL responsavel por fazer a coleta dos usernames 
+//	dos jogadores presentes.
+//	***************************************************
 	public void pedeUsername() {
 		
         
@@ -323,6 +399,12 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
         add(panelPedeUsuario);
         updateTela();
 	}
+//	************************************
+//	excluirPanel recebe um JPanel e faz
+//	sua remoção por completo para que 
+//	possa ser adicionado um novo 
+//	JPanel em seu lugar.
+//	************************************
 	public void excluiPanel(JPanel panel) {
 		remove(panel);
 		panel.removeAll();
@@ -332,6 +414,10 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		updateTela();
 	}
 	@Override
+//	******************************************
+//	os mousePressed ficam responsaveis
+//	pelas ações de saves encotradas no menuBar
+//	******************************************
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == salvarTxt) {

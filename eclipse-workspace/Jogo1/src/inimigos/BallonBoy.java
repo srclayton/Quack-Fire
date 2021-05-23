@@ -13,7 +13,12 @@ public class BallonBoy extends Inimigo{
 		super(x, y,"res\\BallonBoy2.png",2,150,150,2,2,5,pontos);
 	}
 	
-	
+	/*===============public void update=============================
+	 *utilizando o update o nosso inimigo BallonBoy se locomove
+	 *na tela do usuario da esquerda para a direita,
+	 *sempre dentro dos limites da tela.
+	 * =============================================================
+	 */
 	@Override
 	public void update() {
 		Random dice = new Random();
@@ -38,6 +43,13 @@ public class BallonBoy extends Inimigo{
 		else
 			y -= dice.nextInt(movBaixo)+0;			
 	}
+//	*******************************************
+//	setImg é reponsavel de fazer a troca da img
+//	do BallonBoy, para que quando ele se mova 
+//	para a esquerda a imagem esteja para a esquerda
+//	e quando ele retornar para a direita
+//	a imagem também vire para a direita
+//	********************************************
 	@Override
 	public void setImg(String srcImg) {
 		ImageIcon src = new ImageIcon(srcImg);

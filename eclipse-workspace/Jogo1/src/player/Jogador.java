@@ -163,6 +163,14 @@ public class Jogador {
 	public Image getImg() {
 		return img;
 	}
+//	*********************************************************
+//	com este metodo conseguimos detectar se a cordenada do 
+//	inimigo condiz com a coordenada do player quando é 
+//	feito a chamada do "atirar". Caso seja nós deletamos 
+//	o inimigo da tela e em seguida retornamos a pontuação
+//	do inimigo atingido. Ressalva para o inimigo BallonBoy
+//	que mesmo apos ser atingido permanece na fase.
+//	*********************************************************
 	public int atirar() {
 		int pont = 0;
 		Iterator<Inimigo> it = Fase.getListaInimigos().iterator();
