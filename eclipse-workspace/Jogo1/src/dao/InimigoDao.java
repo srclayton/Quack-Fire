@@ -113,46 +113,53 @@ public class InimigoDao{
 		{  
 			File file=new File("saves/"+username+"inimigoDAO"+numFase+".txt");    //creates a new file instance  
 			FileReader fr=new FileReader(file);   //reads the file  
+			
 			BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
 			String line;  
-		
-			int i =0;
-			while((line=br.readLine())!=null)  
-			{  i++;
-				Inimigo inimigo;
-				try {
-					String[] listaAtributos =   line.split(";",100);
-					if (listaAtributos[4]=="1") {
-						inimigo = new PatoDourado(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
-						inimigo.load();
-						listaInimigos.add(inimigo);
+			if(file.length()>1) 
+				while((line=br.readLine())!=null)  
+				{  
+	
+					Inimigo inimigo;
+					try {
+						
+						String[] listaAtributos =   line.split(";",100);
+	
+						if (Integer.valueOf(listaAtributos[4])==1) {
+							inimigo = new PatoDourado(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+							inimigo.load();
+							listaInimigos.add(inimigo);
+							
+						}
+						if (Integer.valueOf(listaAtributos[4])==2) {
+							inimigo = new PatoFedido(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+							inimigo.load();
+							listaInimigos.add(inimigo);
+						}
+						if (Integer.valueOf(listaAtributos[4])==3) {
+							inimigo = new PatoNormal(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+							inimigo.load();
+							listaInimigos.add(inimigo);
+	
+							System.out.println(listaAtributos[4]);
+							
+						}
+						if (Integer.valueOf(listaAtributos[4])==4) {
+							inimigo = new PatoPequeno(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+							inimigo.load();
+							listaInimigos.add(inimigo);
+						}
+						if (Integer.valueOf(listaAtributos[4])==5) {
+							inimigo = new BallonBoy(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
+							inimigo.load();
+							listaInimigos.add(inimigo);
+						}
 					}
-					if (listaAtributos[4]=="2") {
-						inimigo = new PatoFedido(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
-						inimigo.load();
-						listaInimigos.add(inimigo);
-					}
-					if (listaAtributos[4]=="3") {
-						inimigo = new PatoNormal(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
-						inimigo.load();
-						listaInimigos.add(inimigo);
-					}
-					if (listaAtributos[4]=="4") {
-						inimigo = new PatoPequeno(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
-						inimigo.load();
-						listaInimigos.add(inimigo);
-					}
-					if (listaAtributos[4]=="5") {
-						inimigo = new BallonBoy(Integer.valueOf(listaAtributos[1]),Integer.valueOf(listaAtributos[2]),Integer.valueOf(listaAtributos[3]));
-						inimigo.load();
-						listaInimigos.add(inimigo);
+					catch(Exception e){
+						e.printStackTrace();
 					}
 				}
-				catch(Exception e){
-					e.printStackTrace();
 				}
-			}
-			}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -161,8 +168,11 @@ public class InimigoDao{
 	public void excluirSaveTXT(int numFase,String username) {
 		try  
 		{  
-			File file=new File("saves/"+username+"inimigoDAO"+numFase+".txt"); 
-			file.delete();
+			FileWriter file=new FileWriter("saves/"+username+"inimigoDAO"+numFase+".txt"); 
+			file.write("");
+			file.close();
+			File filee=new File("saves/"+username+"inimigoDAO"+numFase+".txt");
+			System.out.println(filee.delete());
 		}
 		catch( Exception e) {
 			
@@ -173,8 +183,11 @@ public class InimigoDao{
 	public void excluirSaveJSON(int numFase,String username) {
 		try  
 		{  
-			File file=new File("saves/"+username+"inimigoDAO"+numFase+".json"); 
-			file.delete();
+			FileWriter file=new FileWriter("saves/"+username+"inimigoDAO"+numFase+".json"); 
+			file.write("");
+			file.close();
+			File filee=new File("saves/"+username+"inimigoDAO"+numFase+".json");
+			filee.delete();
 		}
 		catch( Exception e) {
 			

@@ -174,7 +174,7 @@ public class Jogador {
 					pont+=p.getPontos();
 				}else
 					pont-=p.getPontos();	
-				System.out.println(p.getClass());
+				System.out.println(p.getClass()+" "+p.getPontos());
 		}
 			
 	}

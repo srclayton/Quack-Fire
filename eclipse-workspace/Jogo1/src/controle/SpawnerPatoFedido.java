@@ -12,7 +12,7 @@ public class SpawnerPatoFedido extends TimerTask {
 	@Override
 	public void run() {
 		LinkedList<Inimigo>lista=Fase.getListaInimigos();
-		PatoFedido p = new PatoFedido(Janela.getLarguraJanela()+100,(int)(Math.random()*((Janela.getAlturaJanela()-200)+1)),500);
+		PatoFedido p = new PatoFedido(Janela.getLarguraJanela()+100,(int)(Math.random()*((Janela.getAlturaJanela()-200)+1)),15*Fase.getConstNegativa());
 		p.load();
 		lista.add(p);
 	}

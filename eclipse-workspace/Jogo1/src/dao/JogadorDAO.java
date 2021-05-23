@@ -91,7 +91,9 @@ public class JogadorDAO {
 						JSONObject obj = new JSONObject(line);
 						JSONObject jogadorJSON = (JSONObject) obj.get("Jogador"+index);
 						j = new Jogador(index, "res\\mira"+index+".png", (int)jogadorJSON.get("posX"),(int) jogadorJSON.get("posY"));
+						
 						j.setPontuacao(jogadorJSON.getInt("pontuacao"));
+						System.out.println(j.getPontuacao()+" "+jogadorJSON.getInt("pontuacao"));
 					}
 					catch (JSONException e) {
 						e.printStackTrace();
@@ -115,37 +117,46 @@ public class JogadorDAO {
 				FileReader fr=new FileReader(file);   //reads the file  
 				BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
 				String line;  
-				while((line=br.readLine())!=null)  {
-					try {
-						String[] listaAtributos =   line.split(";",100);
-						if(Integer.valueOf(listaAtributos[0])==index) {
-							
-							int x = Integer.valueOf(listaAtributos[1]);
-							int y = Integer.valueOf(listaAtributos[2]);
-							int pontuacao = Integer.valueOf(listaAtributos[3]);
-							j = new Jogador(index,"res\\mira"+index+".png",x,y);
-							j.load();
-							j.setPontuacao(pontuacao);
-							System.out.println(pontuacao);
-							return j;
+				if(file.length()>1) 
+					while((line=br.readLine())!=null)  {
+						try {
+							String[] listaAtributos =   line.split(";",100);
+							if(Integer.valueOf(listaAtributos[0])==index) {
+								
+								int x = Integer.valueOf(listaAtributos[1]);
+								int y = Integer.valueOf(listaAtributos[2]);
+								int pontuacao = Integer.valueOf(listaAtributos[3]);
+								j = new Jogador(index,"res\\mira"+index+".png",x,y);
+								j.load();
+								j.setPontuacao(pontuacao);
+								System.out.println("A PONTUACAO E:"+listaAtributos[3]);
+								return j;
+							}
+						}
+						catch(Exception e) {
+							e.printStackTrace();  
 						}
 					}
-					catch(Exception e) {
-						e.printStackTrace();  
-					}
+				else{
+					Jogador jo = new Jogador(index,"res\\mira"+index+".png",100,100);
+					jo.load();
+					return jo;
 				}
-			}
-			catch(Exception e) {
-				e.printStackTrace();  
-			}
+				}
+				catch(Exception e) {
+					e.printStackTrace();  
+				}
 			return j;
 		}
 		
 		public void excluirSaveJSON(int numFase,String username) {
 			try  
 			{  
-				File file=new File("saves/"+username+"JogadorDAO"+numFase+".json"); 
-				file.delete();
+				FileWriter file=new FileWriter("saves/"+username+"JogadorDAO"+numFase+".json"); 
+				file.write("");
+				file.close();
+				File filee=new File("saves/"+username+"JogadorDAO"+numFase+".json"); 
+				filee.delete();
 			}
 			catch (Exception e) {
 				
@@ -154,8 +165,11 @@ public class JogadorDAO {
 		public void excluirSaveTXT(int numFase,String username) {
 			try  
 			{  
-				File file=new File("saves/"+username+"JogadorDAO"+numFase+".txt"); 
-				file.delete();
+				FileWriter file=new FileWriter("saves/"+username+"JogadorDAO"+numFase+".txt"); 
+				file.write("");
+				file.close();
+				File filee=new File("saves/"+username+"JogadorDAO"+numFase+".txt");
+				filee.delete();
 			}
 			catch (Exception e) {
 				

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -15,7 +16,9 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import controle.*;
+import dao.RankingDAO;
 import fase.*;
+import modelo.*;
 
 public class Janela extends JFrame implements ActionListener,MouseListener{
 	
@@ -34,6 +37,9 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private JButton btVoltaMenu;
 	private JLabel jb = new JLabel("MENU");
 	private JLabel labelU1;
+	private JLabel ranking1;
+	private JLabel ranking2;
+	private JLabel ranking3;
     private JMenuItem salvarTxt;
     private JMenuItem salvarJson;
 	private static JPanel FaseAtual;
@@ -50,7 +56,7 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	
 	public Janela() {
 		
-		tempoDeFase = new Timer(10000,this);
+		tempoDeFase = new Timer(65000,this);
 		tempoDeFase.start();
 		criaMenu();
         JMenuBar menuBar = new JMenuBar();
@@ -70,7 +76,7 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		
 	}
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("BBBBBBB");
+		((Fase) FaseAtual).encerra();
 		encerraFase();
 		criaMenu();
 	}
@@ -220,11 +226,52 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	public void paginaRanking() {
 		panelRanking = new JPanel();
 		panelRanking.setLayout(null);
+		ArrayList<DetalhesJogadorRanking> arrayDet1 = RankingDAO.listaRankingDAOJSON(1);
+		ArrayList<DetalhesJogadorRanking> arrayDet2 = RankingDAO.listaRankingDAOJSON(2);
+		ArrayList<DetalhesJogadorRanking> arrayDet3 = RankingDAO.listaRankingDAOJSON(3);
+		for(int i=1;i<6;i++) {
+			try {
+				ranking1 = new JLabel();
+				ranking1.setText(arrayDet1.get(i-1).getUsername()+"  :  "+arrayDet1.get(i-1).getPontuacao());}
+			catch(Exception e) {
+				ranking1.setText("RANKING VAZIO");
+			}
+			try {
+				ranking2 = new JLabel();
+				ranking2.setText(arrayDet2.get(i-1).getUsername()+"  :  "+arrayDet2.get(i-1).getPontuacao());}
+			catch(Exception e) {
+				ranking2.setText("RANKING VAZIO");}
+			try {
+				ranking3 = new JLabel();
+				ranking3.setText(arrayDet3.get(i-1).getUsername()+"  :  "+arrayDet3.get(i-1).getPontuacao());}
+			catch(Exception e) {
+				ranking3.setText("RANKING VAZIO");
+			}
+			ranking1.setBounds(60, 60*i+100, 250, 58);
+			ranking2.setBounds(400, 60*i+100, 250, 58);
+			ranking3.setBounds(700, 60*i+100, 250, 58);
+			panelRanking.add(ranking1);
+			panelRanking.add(ranking2);
+			panelRanking.add(ranking3);
+		}
+		ranking1 = new JLabel();
+		ranking2 = new JLabel();
+		ranking3 = new JLabel();
+		ranking1.setText("Ranking Fase 1");
+		ranking1.setBounds(60, 60, 250, 58);
+		ranking2.setText("Ranking Fase 2");
+		ranking2.setBounds(400, 60, 250, 58);
+		ranking3.setText("Ranking Fase 3");
+		ranking3.setBounds(700, 60, 250, 58);
+		panelRanking.add(ranking1);
+		panelRanking.add(ranking2);
+		panelRanking.add(ranking3);
 		
 		btVoltaMenu = new JButton("Retornar Menu");
 		btVoltaMenu.addMouseListener(this);
 		btVoltaMenu.setBounds(500, 500, 150, 100);
 		panelRanking.add(btVoltaMenu);
+		
 		add(panelRanking);
 		
 		updateTela();

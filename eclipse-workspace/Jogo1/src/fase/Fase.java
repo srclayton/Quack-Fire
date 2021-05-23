@@ -14,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.util.*;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -41,14 +40,17 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 	protected java.util.Timer timerPatoFedido;
 	protected java.util.Timer timerPatoNormal;
 	protected java.util.Timer timerExcluidor;
+	protected java.util.Timer timerTemporizador;
 	protected Graphics2D graficos;
-	protected int tempoTotal=0;
-	protected int tempoSegundosTotais=10;
 	protected int taxaDeAtualizacao;
 	protected boolean usarSave;
 	protected JLabel labelU1; 
 	protected JLabel labelU2; 
+	protected JLabel labelTimer; 
 	protected String formato;
+	protected static int constanteNegativaPontuacao;
+	protected static int constantePositivaPontuacao;
+	protected static int tempoDecorrido;
 //	protected JButton btJson= new JButton("SALVAR JSON");
 //	protected JButton btTxt=new JButton("SALVAR TEXT");
 	/*===================================================================================
@@ -65,8 +67,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			int numeroFase, 
 			int taxaDeAtualizacao,
 			boolean usarSave,
-			String formato){
+			String formato,
+			int constN,
+			int constP){
 		//setLayout(null);
+		tempoDecorrido=65;
 		setFocusable(true); // melhora desempenho;
 		setDoubleBuffered(true);
 		this.taxaDeAtualizacao = taxaDeAtualizacao;
@@ -75,9 +80,12 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		this.fundo = img.getImage();
 		addKeyListener(new TecladoAdapter()); // leitura das teclas
 		this.faseAtual=numeroFase;
+		this.constantePositivaPontuacao = constP;
+		this.constanteNegativaPontuacao =constN;
+		timerTemporizador = new java.util.Timer();
+		timerTemporizador.scheduleAtFixedRate(new TaskTemporizador(),0,1000);
 		timerFase=  new Timer(taxaDeAtualizacao, this); // 
 		timerFase.start();
-		tempoTotal=0;
 		this.usarSave=usarSave;
 		this.formato = formato;
 		if(usarSave){
@@ -90,11 +98,14 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		
 		labelU1 = new JLabel();
 		labelU2 = new JLabel();
+		labelTimer= new JLabel();
 
 		add(labelU1);
 		add(labelU2);
+		add(labelTimer);
 		labelU1.setFont(new Font("Verdana", Font.PLAIN, 27));
 		labelU2.setFont(new Font("Verdana", Font.PLAIN, 27));
+		labelTimer.setFont(new Font("Verdana", Font.PLAIN, 40));
 		labelU1.setForeground(Color.RED);
 		labelU2.setForeground(Color.BLUE);
 		
@@ -169,10 +180,11 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 				
 		}
 		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
-		labelU2.setText("                                                                                "+Janela.getUsername2()+": "+player2.getPontuacao());
-		
+		labelU2.setText("                                                                          "+Janela.getUsername2()+": "+player2.getPontuacao());
+		labelTimer.setText("                                   "+tempoDecorrido);
 		labelU1.print(g);
 		labelU2.print(g);
+		labelTimer.print(g);
 		
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
@@ -196,12 +208,6 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 				break;
 			}
 		}
-		tempoTotal++;
-		if (tempoTotal>(10000-2500)/taxaDeAtualizacao)
-		{	
-			encerra();
-		}
-
 		repaint();
 	}
 	
@@ -221,6 +227,7 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			catch(Exception in){
 				break;}
 			}
+		timerTemporizador.cancel();
 		timerPatoDourado.cancel();
 		timerPatoFedido.cancel();
 		timerPatoPequeno.cancel();
@@ -229,6 +236,14 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		this.removeAll();
 		validate();
 		repaint();
+	}
+	public void insereRanking() {
+		//inserir em txt
+		RankingDAO.insereRankingDAOTXT(player1.getPontuacao(),player2.getPontuacao(),faseAtual,Janela.getUsername1(),Janela.getUsername2());
+		
+		//inserir em json
+		RankingDAO.insereRankingDAOJSON(player1.getPontuacao(),player2.getPontuacao(),faseAtual,Janela.getUsername1(),Janela.getUsername2());
+
 	}
 	/*================class TecladoAdapter=======================
 	 * Esta classe lida com a leitura das teclas pressionadas
@@ -278,8 +293,15 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			j.inserirTXT(faseAtual,player1, player2, Janela.getUsername1());
 			}
 		}
-		
-	
+	public static void diminuiSegundo() {
+		tempoDecorrido--;
+	}
+	public static int getConstNegativa() {
+		return constanteNegativaPontuacao;
+	}
+	public static int getConstPositiva() {
+		return constantePositivaPontuacao;
+	}
 	
 	public static LinkedList<Inimigo> getListaInimigos() {
 		return ListaInimigos;

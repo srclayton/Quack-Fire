@@ -14,10 +14,10 @@ public class DetalhesJogadorRanking implements Comparable<DetalhesJogadorRanking
 	@Override
 	public int compareTo(DetalhesJogadorRanking detJ) {
 		if (detJ.getPontuacao() > this.getPontuacao() ){
-			return -1;
+			return 1;
 		}
 		else if (detJ.getPontuacao() < this.getPontuacao()) {
-			return 1;
+			return -1;
 		}
 		else {
 			return 0;

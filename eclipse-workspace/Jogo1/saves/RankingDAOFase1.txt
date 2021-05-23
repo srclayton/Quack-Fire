@@ -1,0 +1,6 @@
+P;1500
+Evandro;1500
+Pye;1500
+Evandro;1000
+Pyettra;1000
+Royka;1000
