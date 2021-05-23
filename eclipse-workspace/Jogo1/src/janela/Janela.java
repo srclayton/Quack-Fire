@@ -23,26 +23,30 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	private static int alturaJanela = 728; // seto a altura e largura da janela;
 	private static int larguraJanela = 1024;
 	private Timer tempoDeFase;
-	private static JPanel FaseAtual;
-	private static JPanel menu;
-	private JLabel jb = new JLabel("MENU");
+	
 	private JButton bt = new JButton("Fase 1");
 	private JButton bt2 = new JButton("Fase 2");
 	private JButton bt3 = new JButton("Fase 3");
 	private JButton botaoInsereUsername = new JButton("InsereUsername");
 	private JButton btTxt;
 	private JButton btJson;
+	private JButton btRanking;
+	private JButton btVoltaMenu;
+	private JLabel jb = new JLabel("MENU");
+	private JLabel labelU1;
+    private JMenuItem salvarTxt;
+    private JMenuItem salvarJson;
+	private static JPanel FaseAtual;
+	private static JPanel menu;
 	private JPanel panelPedeUsuario;
 	private JPanel pedeFormato;
-	private JLabel labelU1;
+	private JPanel panelRanking;
 	private JTextField field1;
 	private JTextField field2;
 	private static String username1;
 	private static String username2;
 	private int numFase;
 	private String formato;
-    JMenuItem salvarTxt;
-    JMenuItem salvarJson;
 	
 	public Janela() {
 		
@@ -91,6 +95,7 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 	public void criaMenu() {
 		menu =  new JPanel();
 		menu.setLayout(null);
+		btRanking = new JButton("Ver Ranking");
 		jb.setBounds(Janela.getLarguraJanela()/2 - jb.getText().length()-50,100,100,100);
 		bt.setBounds(100,300,200,200);
 		bt.addMouseListener(this);
@@ -98,10 +103,13 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 		bt2.addMouseListener(this);
 		bt3.setBounds(700,300,200,200);
 		bt3.addMouseListener(this);
+		btRanking.setBounds(100,510,800,80);
+		btRanking.addMouseListener(this);
 		menu.add(jb);
 		menu.add(bt);
 		menu.add(bt2);
 		menu.add(bt3);
+		menu.add(btRanking);
 		add(menu);
 		updateTela();
 		
@@ -185,6 +193,12 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 				adicionaFase();
 				}
 		}
+		if(e.getSource() == btRanking)
+		{
+			excluiPanel(menu);
+			paginaRanking();
+		}
+		
 		if(e.getSource() == btTxt) {
 			formato = "TXT";
 			excluiPanel(pedeFormato);
@@ -196,7 +210,24 @@ public class Janela extends JFrame implements ActionListener,MouseListener{
 			adicionaFase();
 		}
 		
+		if(e.getSource() == btVoltaMenu) {
+			excluiPanel(panelRanking);
+			criaMenu();
+		}
 		
+	}
+	
+	public void paginaRanking() {
+		panelRanking = new JPanel();
+		panelRanking.setLayout(null);
+		
+		btVoltaMenu = new JButton("Retornar Menu");
+		btVoltaMenu.addMouseListener(this);
+		btVoltaMenu.setBounds(500, 500, 150, 100);
+		panelRanking.add(btVoltaMenu);
+		add(panelRanking);
+		
+		updateTela();
 	}
 	
 	public void pedeFormato(boolean usarSaveJSON,boolean usarSaveTXT) {

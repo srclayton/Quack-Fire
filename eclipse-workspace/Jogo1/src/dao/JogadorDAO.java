@@ -91,7 +91,7 @@ public class JogadorDAO {
 						JSONObject obj = new JSONObject(line);
 						JSONObject jogadorJSON = (JSONObject) obj.get("Jogador"+index);
 						j = new Jogador(index, "res\\mira"+index+".png", (int)jogadorJSON.get("posX"),(int) jogadorJSON.get("posY"));
-						
+						j.setPontuacao(jogadorJSON.getInt("pontuacao"));
 					}
 					catch (JSONException e) {
 						e.printStackTrace();
@@ -111,7 +111,7 @@ public class JogadorDAO {
 			Jogador j = null;
 			try  
 			{  
-				File file=new File("saves/"+username+"inimigoDAO"+numFase+".txt");    //creates a new file instance  
+				File file=new File("saves/"+username+"jogadorDAO"+numFase+".txt");    //creates a new file instance  
 				FileReader fr=new FileReader(file);   //reads the file  
 				BufferedReader br=new BufferedReader(fr);   //constructs a string buffer with no characters  
 				String line;  
@@ -120,13 +120,14 @@ public class JogadorDAO {
 						String[] listaAtributos =   line.split(";",100);
 						if(Integer.valueOf(listaAtributos[0])==index) {
 							
-						int x = Integer.valueOf(listaAtributos[1]);
-						int y = Integer.valueOf(listaAtributos[2]);
-						int pontuacao = Integer.valueOf(listaAtributos[3]);
-						j = new Jogador(index,"res\\mira"+index+".png",x,y);
-						j.load();
-						j.setPontuacao(pontuacao);
-						return j;
+							int x = Integer.valueOf(listaAtributos[1]);
+							int y = Integer.valueOf(listaAtributos[2]);
+							int pontuacao = Integer.valueOf(listaAtributos[3]);
+							j = new Jogador(index,"res\\mira"+index+".png",x,y);
+							j.load();
+							j.setPontuacao(pontuacao);
+							System.out.println(pontuacao);
+							return j;
 						}
 					}
 					catch(Exception e) {

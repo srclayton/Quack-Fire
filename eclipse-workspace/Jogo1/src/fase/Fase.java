@@ -97,13 +97,6 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		labelU2.setFont(new Font("Verdana", Font.PLAIN, 27));
 		labelU1.setForeground(Color.RED);
 		labelU2.setForeground(Color.BLUE);
-//		btTxt.setBounds(0,0, 80, 80);
-//		btTxt.setBounds(Janela.getLarguraJanela()-200, Janela.getAlturaJanela()-100,80,80);
-//		btJson.setBounds(Janela.getLarguraJanela()-100, Janela.getAlturaJanela()-100,80,80);
-//		add(btTxt);
-//		add(btJson);
-//		
-		
 		
 	}
 	public void construirSaveAntigo(String formato) {
@@ -115,6 +108,7 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			player1.load();
 			player2 = jDAO.construtoraJSON(faseAtual,Janela.getUsername1(),2);
 			player2.load();
+			jDAO.excluirSaveJSON(faseAtual, Janela.getUsername1());
 			iDAO.excluirSaveJSON(faseAtual,Janela.getUsername1());}
 		else if(formato=="TXT") {
 			iDAO.construtoraTXT(faseAtual,Janela.getUsername1());
@@ -122,6 +116,7 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			player1.load();
 			player2 = jDAO.construtoraTXT(faseAtual,Janela.getUsername1(), 2);
 			player2.load();
+			jDAO.excluirSaveTXT(faseAtual, Janela.getUsername1());
 			iDAO.excluirSaveTXT(faseAtual,Janela.getUsername1());
 		}
 	}
@@ -173,9 +168,6 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 			}
 				
 		}
-		//btTxt.paint(g);
-//		btJson.paint(g);
-//		btTxt.paint(g);
 		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
 		labelU2.setText("                                                                                "+Janela.getUsername2()+": "+player2.getPontuacao());
 		
@@ -184,8 +176,6 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 		
 		graficos.drawImage(player1.getImg(), player1.getX(), player1.getY(), this);
 		graficos.drawImage(player2.getImg(), player2.getX(), player2.getY(), this);
-//		labelU1.setText(Janela.getUsername1()+": "+player1.getPontuacao());
-//		labelU2.setText(Janela.getUsername2()+": "+player2.getPontuacao());
 
 		g.dispose();
 	}
@@ -217,6 +207,7 @@ public class Fase extends JPanel implements ActionListener, MouseListener{
 	
 	public void encerra() {
 		timerFase.stop();
+		insereRanking();
 		player1.deletImg();
 		player2.deletImg();
 		
